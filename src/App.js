@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import "bootstrap/dist/css/bootstrap.min.css"
+
 import './App.css';
 import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
@@ -16,16 +18,13 @@ function App() {
   }
 
   return (
-    <div className="wrapper">
-      <h1>Application</h1>
       <BrowserRouter>
         <Routes>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path='preferences' element={<Preferences />}/>
         </Routes>
       </BrowserRouter>
-    </div>
-    );
-  }
+  )
+}
   
-  export default App;
+export default App;
