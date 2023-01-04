@@ -1,7 +1,7 @@
 {
   "name": "schichtplan-fe",
   "homepage": ".",
-  "proxy": "http://localhost:7070",
+  "proxy": "http://0.0.0.0:8080",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
