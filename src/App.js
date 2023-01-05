@@ -8,9 +8,10 @@ import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
 import Preferences from './components/Preferences/Preferences';
 import useToken from './useToken';
+import { Menu } from './components/Menu/Menu';
 
 function App() {
-  
+
   const { token, setToken } = useToken();
 
   if(!token){
@@ -18,13 +19,14 @@ function App() {
   }
 
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path='preferences' element={<Preferences />}/>
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path='dashboard' element={<Dashboard />} />
+        <Route path='preferences' element={<Preferences />} />
+        <Route path='usermanagement' element={<Menu />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
-  
+
 export default App;

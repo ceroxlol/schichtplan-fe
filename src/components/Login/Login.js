@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import './Login.css';
 
 async function loginUser(credentials) {
   return fetch('http://0.0.0.0:8080/users/login', {
@@ -9,8 +10,7 @@ async function loginUser(credentials) {
     },
     body: JSON.stringify(credentials)
   })
-    .then(res =>
-      res.json())
+    .then(res => res.json())
 }
 
 async function registerUser(credentials) {
@@ -21,8 +21,7 @@ async function registerUser(credentials) {
     },
     body: JSON.stringify(credentials)
   })
-    .then(res =>
-      res.json())
+    .then(res => res.json())
 }
 
 export default function Login({ setToken }) {
@@ -49,7 +48,8 @@ export default function Login({ setToken }) {
         "username": username,
         "password": password
       }
-    })
+    });
+    setToken(token);
   }
 
   let [authMode, setAuthMode] = useState("signin")
