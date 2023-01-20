@@ -1,7 +1,5 @@
 {
-  "name": "schichtplan-fe",
-  "homepage": ".",
-  "proxy": "http://0.0.0.0:8080",
+  "name": "react-jwt-auth",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -14,11 +12,9 @@
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.41.5",
-    "react-icons": "^4.7.1",
-    "react-router-dom": "^6.6.0",
-    "react-scripts": "^5.0.1",
-    "rsuite": "^5.24.0",
-    "validator": "^13.7.0",
+    "react-router-bootstrap": "^0.26.2",
+    "react-router-dom": "^6.6.1",
+    "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -44,8 +40,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "cors": "^2.8.5"
   }
 }

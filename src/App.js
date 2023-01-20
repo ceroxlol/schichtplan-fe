@@ -1,32 +1,23 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import "bootstrap/dist/css/bootstrap.min.css"
+import "./App.css";
+import Login from "./components/Login";
+import Home from "./components/Home";
+import UserManagement from "./components/UserManagement";
+import SchichtplanNavbar from "./components/Navbar";
 
-import './App.css';
-import Login from './components/login.component';
-import Dashboard from './components/dashboard.component';
-import Preferences from './components/preferences.component';
-import useToken from './useToken';
-import { Menu } from './components/userManagement.component';
-
-function App() {
-
-  const { token, setToken } = useToken();
-
-  if(!token){
-    return <Login setToken={setToken}/>
-  }
-
+export default function App() {
   return (
     <BrowserRouter>
+      <SchichtplanNavbar></SchichtplanNavbar>
+
       <Routes>
-        <Route path='dashboard' element={<Dashboard />} />
-        <Route path='preferences' element={<Preferences />} />
-        <Route path='usermanagement' element={<Menu />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/usermanagement" element={<UserManagement />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
-
-export default App;
