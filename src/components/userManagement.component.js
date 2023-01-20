@@ -10,10 +10,24 @@ import {
   Table,
 } from "react-bootstrap";
 import { Toggle } from "rsuite";
-import { FaPencilAlt, FaPlus, FaTrashAlt } from "react-icons/fa";
+import { FaPencilAlt, FaPlus, FaCheck } from "react-icons/fa";
+
+
+async function fetchAllUsers(token) {
+  return fetch('http://0.0.0.0:8080/users/all', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'token': 'Token ' + token
+    }
+  })
+    .then(res =>
+      res.json()
+    )
+}
 
 export const Menu = () => {
-  const defaultUsers   = [
+  const defaultUsers = [
     {
       id: 1,
       name: "Bob",
@@ -49,11 +63,11 @@ export const Menu = () => {
   const [rates, setRates] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
   const handleClose = () => {
-    setShow(false);   
+    setShow(false);
   };
   const handleShow = () => {
     setShow(true);
-    if(editing === false) {
+    if (editing === false) {
       setNewUser(initCurrentUser);
     }
   };
@@ -65,11 +79,11 @@ export const Menu = () => {
 
   const onEdit = (newUser) => {
     setEdit(true);
-    if(editing === true) {
+    if (editing === true) {
       setNewUser({ ...newUser, newUser });
       handleShow();
     }
-    
+
   };
 
   const onSubmit = (newUser) => {
@@ -90,6 +104,10 @@ export const Menu = () => {
     setUsers(users.filter((i) => i.id !== currentUser.id));
   };
 
+  const onActivateUser = async (currentUser) => {
+
+  }
+
   return (
     <Container fluid="md">
       <Row>
@@ -98,7 +116,7 @@ export const Menu = () => {
             <Card.Body>
               <div className="d-flex justify-content-between customCardBody">
                 <div>
-                  <Card.Title>User Data</Card.Title>
+                  <Card.Title>Benutzerverwaltung</Card.Title>
                 </div>
                 <div className="d-flex">
                   <Toggle
@@ -122,16 +140,14 @@ export const Menu = () => {
                   )}
                 </div>
               </div>
-              <Table striped bordered hover variant="dark">
+              <Table striped bordered hover>
                 <thead>
                   <tr>
                     <th>#</th>
                     <th>Name</th>
-                    <th>Address</th>
-                    <th>Age</th>
-                    <th>Profession</th>
-                    <th>Sport Interest Rate</th>
-                    <th>Actions</th>
+                    <th>Email</th>
+                    <th>Rolle</th>
+                    <th>Aktiviert</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -139,25 +155,24 @@ export const Menu = () => {
                     users.map((user, index) => (
                       <tr key={index}>
                         <td>{user.id}</td>
-                        <td>{user.name}</td>
-                        <td>{user.address}</td>
-                        <td>{user.age}</td>
-                        <td>{user.profession}</td>
-                        <td>{user.interestRate}</td>
+                        <td>{user.username}</td>
+                        <td>{user.email}</td>
+                        <td>{user.role}</td>
+                        <td>{user.activated}</td>
                         <td>
                           <Button
                             variant="info"
-                            title="Edit user details"
+                            title="Editieren"
                             onClick={() => onEdit(user)}
                           >
                             <FaPencilAlt />
                           </Button>{" "}
                           <Button
-                            variant="danger"
-                            title="Delete user"
+                            variant="success"
+                            title="Aktivieren"
                             onClick={() => onDeleteUser(user)}
                           >
-                            <FaTrashAlt />
+                            <FaCheck />
                           </Button>
                         </td>
                       </tr>
@@ -183,9 +198,9 @@ export const Menu = () => {
             >
               <Modal.Header closeButton>
                 {
-                  editing === true 
-                  ? <Modal.Title>Edit User</Modal.Title>
-                  : <Modal.Title>Add User</Modal.Title>
+                  editing === true
+                    ? <Modal.Title>Edit User</Modal.Title>
+                    : <Modal.Title>Add User</Modal.Title>
                 }
               </Modal.Header>
               <Modal.Body>
@@ -245,10 +260,10 @@ export const Menu = () => {
                     <option value="">Select</option>
                     {rates.length
                       ? rates.map((val, index) => (
-                          <option key={index} value={val}>
-                            {val}
-                          </option>
-                        ))
+                        <option key={index} value={val}>
+                          {val}
+                        </option>
+                      ))
                       : null}
                   </Form.Select>
                 </Form.Group>

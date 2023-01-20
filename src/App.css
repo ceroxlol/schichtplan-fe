@@ -48,7 +48,7 @@ label {
 }
 
 .customCard {
-  background-color: unset !important;
+  background-color: white;
   font-family: Industry;
   margin-top: 10%;
 }
