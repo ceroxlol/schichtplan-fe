@@ -26,7 +26,7 @@ async function fetchAllUsers(token) {
     )
 }
 
-export const Menu = () => {
+const UserManagement = () => {
   const defaultUsers = [
     {
       id: 1,
@@ -289,3 +289,5 @@ export const Menu = () => {
     </Container>
   );
 };
+
+export default UserManagement;

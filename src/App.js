@@ -11,7 +11,6 @@ export default function App() {
   return (
     <BrowserRouter>
       <SchichtplanNavbar></SchichtplanNavbar>
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />

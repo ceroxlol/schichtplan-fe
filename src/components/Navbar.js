@@ -18,7 +18,7 @@ export default function SchichtplanNavbar() {
           <Nav.Item>
             <Nav.Link href="/home">Home</Nav.Link>
           </Nav.Item>
-          {user.user && user.user.token &&
+          {user && user.user && user.user.token &&
           <Nav.Item>
             <Nav.Link href="/usermanagement">Benutzerverwaltung</Nav.Link>
           </Nav.Item>
