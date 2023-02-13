@@ -28,6 +28,11 @@ export default function SchichtplanNavbar() {
           <Nav.Item>
             <Nav.Link href="/login">Login</Nav.Link>
           </Nav.Item>
+          {!user &&
+          <Nav.Item>
+            <Nav.Link href="/register">Register</Nav.Link>
+          </Nav.Item>
+          }
         </Nav>
       </Navbar.Collapse>
     </Navbar>

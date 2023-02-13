@@ -3,12 +3,16 @@ import auth from "../services/auth";
 
 import "./Login.css";
 
-export default function Login() {
+export default function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = data => {
-    const response = auth.login(data.email, data.password)
-    if(response){
-      console.log("Logged in successfully.")
+    const responseRegister = auth.register(data.userName, data.email, data.password)
+    if(responseRegister){
+        console.log("successfully registered. Logging in now...")
+        const responserLogin = auth.login(responseRegister.email, responseRegister.password)
+        if(responserLogin){
+            console.log("Logged in.")
+        }
     }
   };
 
@@ -18,20 +22,30 @@ export default function Login() {
     <div className="Auth-form-container">
       <form className="Auth-form" onSubmit={handleSubmit(onSubmit)}>
         <div className="Auth-form-content">
-          <h3 className="Auth-form-title">Einloggen</h3>
+          <h3 className="Auth-form-title">Register</h3>
           <div className="form-group mt-3">
-            <label>E-Mail-Adresse</label>
+            <label>Vollständiger Name</label>
+            <input
+              type="text"
+              className="form-control mt-1"
+              placeholder="Vollständiger Name"
+              {...register("userName", { required : true})} />
+          </div>
+          {errors.userName && <p>Das Feld ist ungültig</p>}
+
+          <div className="form-group mt-3">
+            <label>Emailaddresse</label>
             <input
               type="email"
               className="form-control mt-1"
               placeholder="E-Mail-Adresse"
-              {...register("email", { required: true})} />
+              {...register("email")} />
           </div>
           {errors.email && <p>Das Feld ist ungültig</p>}
 
           {/* include validation with required or other standard HTML validation rules */}
           <div className="form-group mt-3">
-            <label>Passwort</label>
+            <label>Password</label>
             <input
               type="password"
               className="form-control mt-1"

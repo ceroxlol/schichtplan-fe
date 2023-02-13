@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import UserManagement from "./components/UserManagement";
 import SchichtplanNavbar from "./components/Navbar";
+import Register from "./components/Register";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register/>} />
         <Route path="/usermanagement" element={<UserManagement />} />
       </Routes>
     </BrowserRouter>
