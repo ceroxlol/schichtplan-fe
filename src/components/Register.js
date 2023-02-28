@@ -6,13 +6,10 @@ import "./Login.css";
 export default function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = data => {
-    const responseRegister = auth.register(data.userName, data.email, data.password)
-    if(responseRegister){
-        console.log("successfully registered. Logging in now...")
-        const responserLogin = auth.login(responseRegister.email, responseRegister.password)
-        if(responserLogin){
-            console.log("Logged in.")
-        }
+    const response = auth.register(data.userName, data.email, data.password)
+    if(response){
+      console.log("Registered successfully. Logged in successfully.")
+      console.log(response)
     }
   };
 
@@ -29,7 +26,7 @@ export default function Register() {
               type="text"
               className="form-control mt-1"
               placeholder="Vollständiger Name"
-              {...register("userName", { required : true})} />
+              {...register("userName", { required: true })} />
           </div>
           {errors.userName && <p>Das Feld ist ungültig</p>}
 

@@ -1,5 +1,4 @@
 import axios from "axios";
-import userService from "./user";
 
 const API_URL = "http://localhost:8080/users/";
 
@@ -7,12 +6,10 @@ class AuthService {
   async login(email, password) {
     const response = await axios
       .post(API_URL + "login", {
-        user: {
-          email,
-          password
-        }
+        email,
+        password
       });
-    if (response.data.user.token) {
+    if (response.data.token) {
       localStorage.setItem("user", JSON.stringify(response.data));
     }
     return response.data;
@@ -22,14 +19,16 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(username, email, password) {
-    return axios.post(API_URL + "register", {
-      user: {
-        username,
-        email,
-        password
-      }
+  async register(username, email, password) {
+    const response = axios.post(API_URL + "register", {
+      username,
+      email,
+      password
     });
+    if (response.data.token) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
+    return response.data;
   }
 
   getCurrentUser() {

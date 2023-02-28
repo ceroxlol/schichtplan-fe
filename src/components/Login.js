@@ -1,14 +1,18 @@
 import { useForm } from "react-hook-form";
 import auth from "../services/auth";
+import {useNavigate} from 'react-router-dom';
 
 import "./Login.css";
 
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate();
   const onSubmit = data => {
     const response = auth.login(data.email, data.password)
-    if(response){
+    if(response && response.token){
       console.log("Logged in successfully.")
+      console.log(response)
+      navigate('/home')
     }
   };
 

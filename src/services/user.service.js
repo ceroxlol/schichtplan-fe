@@ -3,7 +3,6 @@ import authHeader from './auth-header';
 
 const API_USERS_URL = 'http://localhost:8080/users/';
 const API_USER_URL = 'http://localhost:8080/user/';
-const API_BASE_URL = 'http://localhost:8080/';
 
 
 class UserService {
@@ -13,10 +12,6 @@ class UserService {
 
   getCurrentUser(){
     return axios.get(API_USER_URL, {headers: authHeader()});
-  }
-
-  getShiftPlan() {
-    return axios.get(API_BASE_URL + 'shiftplan', { headers: authHeader() });
   }
 
   getUserManagement() {
