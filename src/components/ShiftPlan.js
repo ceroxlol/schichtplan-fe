@@ -21,8 +21,12 @@ const ShiftPlan = () => {
       var response;
       if (id) {
         response = await shift.getShiftPlan(id)
+        //TODO: Set the groups correctly
+        setGroups([{ id: id, title: "TEST" }])
       } else {
         response = await shift.getAllShiftPlans()
+        const group = await response.data[0].group
+        setGroups([{ id: group, title: "ALL TEST"}])
       }
       const data = await response.data;
       setItems(data);
@@ -38,7 +42,6 @@ const ShiftPlan = () => {
       navigate("/");
     } else {
       setUsername(user.username)
-      setGroups([{ id: 1, title: user.username, height: 100, rightTitle: 'title in the right sidebar' }])
     }
   }, [navigate]);
 

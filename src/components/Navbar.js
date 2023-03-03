@@ -7,8 +7,6 @@ export default function SchichtplanNavbar() {
   const navigate = useNavigate();
   const user = auth.getCurrentUser();
 
-  console.log(user);
-
   function logout() {
     auth.logout()
     navigate("/login")
