@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import shift from "../services/shift";
 import authService from "../services/auth";
 
@@ -9,7 +9,7 @@ import 'react-calendar-timeline/lib/Timeline.css'
 import moment from 'moment'
 
 const ShiftPlan = () => {
-  //const { id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,14 +18,19 @@ const ShiftPlan = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await shift.getAllShiftPlans()
+      var response;
+      if (id) {
+        response = await shift.getShiftPlan(id)
+      } else {
+        response = await shift.getAllShiftPlans()
+      }
       const data = await response.data;
       setItems(data);
       setLoading(false);
     }
 
     fetchData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const user = authService.getCurrentUser()
@@ -35,28 +40,7 @@ const ShiftPlan = () => {
       setUsername(user.username)
       setGroups([{ id: 1, title: user.username, height: 100, rightTitle: 'title in the right sidebar' }])
     }
-
-    setItems([
-      {
-        id: 1,
-        group: 1,
-        title: 'item 1',
-        start_time: 1677838446073,
-        end_time: 1677849446073
-      },
-      {
-        id: 3,
-        group: 1,
-        title: 'item 3',
-        start_time: moment().add(2, 'hour'),
-        end_time: moment().add(3, 'hour')
-      }
-    ])
   }, [navigate]);
-
-  useEffect(() =>{
-    console.log(items)
-  }, [items])
 
   return (
     <div>

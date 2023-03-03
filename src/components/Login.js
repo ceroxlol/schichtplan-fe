@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import auth from "../services/auth";
 import {useNavigate} from 'react-router-dom';
+import { toast } from "react-toastify";
 
 import "./Login.css";
 
@@ -12,8 +13,12 @@ export default function Login() {
     const response = await auth.login(data.email, data.password)
     if(response && response.data){
       console.log("Logged in successfully as " + response.data.username)
+      toast.info("Welcome " + response.data.username)
       localStorage.setItem("user", JSON.stringify(response.data))
       navigate("/")
+    }
+    else{
+      toast.error("Something went wrong...")
     }
   };
 
@@ -45,6 +50,7 @@ export default function Login() {
           </div>
           {/* errors will return when field validation fails  */}
           {errors.password && <p>Das Feld ist ungültig</p>}
+
           <div className="d-grid gap-2 mt-3">
             <input type="submit" className="btn btn-primary" />
           </div>
