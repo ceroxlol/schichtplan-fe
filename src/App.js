@@ -19,6 +19,7 @@ export default function App() {
         <Route path="/register" element={<Register/>} />
         {/* <Route path="/usermanagement" element={<UserManagement />} /> */}
         <Route path="/shiftplan" element={<ShiftPlan/>} />
+        <Route path="/shiftplan/all" element={<ShiftPlan/>} />
         <Route path="/logout" element={<Home />} />
       </Routes>
     </BrowserRouter>

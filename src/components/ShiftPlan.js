@@ -1,80 +1,97 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import shift from "../services/shift";
+import authService from "../services/auth";
 
-import "./ShiftPlan.css";
+import Timeline from 'react-calendar-timeline'
+// make sure you include the timeline stylesheet or the timeline will not be styled
+import 'react-calendar-timeline/lib/Timeline.css'
+import moment from 'moment'
 
 const ShiftPlan = () => {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const [schedules, setSchedules] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [username, setUsername] = useState("");
+  //const { id } = useParams();
+  const navigate = useNavigate();
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [username, setUsername] = useState("");
+  const [groups, setGroups] = useState([]);
 
-    useEffect(() => {
-        const response = shift.getAllShiftPlans()
-    });
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await shift.getAllShiftPlans()
+      const data = await response.data;
+      setItems(data);
+      setLoading(false);
+    }
 
-    // useEffect(() => {
-    // 	function getUserDetails() {
-    // 		if (id) {
-    // 			fetch(`http://localhost:4000/schedules/${id}`)
-    // 				.then((res) => res.json())
-    // 				.then((data) => {
-    // 					setUsername(data.username);
-    // 					setSchedules(data.schedules);
-    // 					setTimezone(data.timezone.label);
-    // 					setLoading(false);
-    // 				})
-    // 				.catch((err) => console.error(err));
-    // 		}
-    // 	}
-    // 	getUserDetails();
-    // }, [id]);
+    fetchData();
+  }, []);
 
-    useEffect(() => {
-        if (!localStorage.getItem("user")) {
-            navigate("/");
-        }
-    }, [navigate]);
+  useEffect(() => {
+    const user = authService.getCurrentUser()
+    if (!user) {
+      navigate("/");
+    } else {
+      setUsername(user.username)
+      setGroups([{ id: 1, title: user.username, height: 100, rightTitle: 'title in the right sidebar' }])
+    }
 
-    return (
-        <main className='profile'>
-            {loading ? (
-                <p>Loading...</p>
-            ) : (
-                <div style={{ width: "70%" }}>
-                    <h2
-                        style={{
-                            marginBottom: "30px",
-                        }}
-                    >
-                        Hey, {username}
-                    </h2>
-                    <p
-                        style={{
-                            marginBottom: "10px",
-                        }}
-                    >
-                        Here is your schedule:
-                    </p>
-                    <table>
-                        <tbody>
-                            {schedules.map((sch) => (
-                                <tr key={sch.day}>
-                                    <td style={{ fontWeight: "bold" }}>
-                                        {sch.day.toUpperCase()}
-                                    </td>
-                                    <td>{sch.startTime || "Unavailable"}</td>
-                                    <td>{sch.endTime || "Unavailable"}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
-        </main>
-    );
+    setItems([
+      {
+        id: 1,
+        group: 1,
+        title: 'item 1',
+        start_time: 1677838446073,
+        end_time: 1677849446073
+      },
+      {
+        id: 3,
+        group: 1,
+        title: 'item 3',
+        start_time: moment().add(2, 'hour'),
+        end_time: moment().add(3, 'hour')
+      }
+    ])
+  }, [navigate]);
+
+  useEffect(() =>{
+    console.log(items)
+  }, [items])
+
+  return (
+    <div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div style={{ width: "70%" }}>
+          <h2
+            style={{
+              marginBottom: "30px",
+            }}
+          >
+            Hey, {username}
+          </h2>
+          <p
+            style={{
+              marginBottom: "10px",
+            }}
+          >
+            Here is your schedule:
+          </p>
+          {items.length !== 0 &&
+            <Timeline
+              groups={groups}
+              items={items}
+              defaultTimeStart={moment().add(-12, 'hour')}
+              defaultTimeEnd={moment().add(12, 'hour')}
+              itemHeightRatio={1.75}
+              canResize
+            />
+          }
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default ShiftPlan;

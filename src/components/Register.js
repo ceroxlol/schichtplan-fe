@@ -5,13 +5,7 @@ import "./Login.css";
 
 export default function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => {
-    const response = auth.register(data.userName, data.email, data.password)
-    if(response){
-      console.log("Registered successfully. Logged in successfully.")
-      console.log(response)
-    }
-  };
+  const onSubmit = data => { auth.register(data.userName, data.email, data.password) };
 
   //console.log(watch("example")); // watch input value by passing the name of it
 

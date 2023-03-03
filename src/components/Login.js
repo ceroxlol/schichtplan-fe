@@ -7,12 +7,13 @@ import "./Login.css";
 export default function Login() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
-  const onSubmit = data => {
-    const response = auth.login(data.email, data.password)
-    if(response && response.token){
-      console.log("Logged in successfully.")
-      console.log(response)
-      navigate('/home')
+
+  const onSubmit = async data => {
+    const response = await auth.login(data.email, data.password)
+    if(response && response.data){
+      console.log("Logged in successfully as " + response.data.username)
+      localStorage.setItem("user", JSON.stringify(response.data))
+      navigate("/")
     }
   };
 

@@ -3,16 +3,13 @@ import axios from "axios";
 const API_URL = "http://localhost:8080/users/";
 
 class AuthService {
-  async login(email, password) {
-    const response = await axios
+  login(email, password) {
+    return axios
       .post(API_URL + "login", {
-        email,
-        password
-      });
-    if (response.data.token) {
-      localStorage.setItem("user", JSON.stringify(response.data));
-    }
-    return response.data;
+        email: email,
+        password: password
+      })
+      .catch(console.log)
   }
 
   logout() {
@@ -20,14 +17,18 @@ class AuthService {
   }
 
   async register(username, email, password) {
-    const response = axios.post(API_URL + "register", {
+    const response = await axios.post(API_URL + "register", {
       username,
       email,
       password
-    });
-    if (response.data.token) {
-      localStorage.setItem("user", JSON.stringify(response.data));
-    }
+    })
+    .then((response) => {
+      if (response.data.token) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+        console.log("Registered in successfully.")
+      }
+    })
+    .catch(console.log);
     return response.data;
   }
 

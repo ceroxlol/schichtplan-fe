@@ -7,7 +7,7 @@ const API_BASE_URL = 'http://localhost:8080/shifts';
 class ShiftService {
 
   getAllShiftPlans() {
-    return axios.get(API_BASE_URL, { headers: authHeader() }).then((response) => console.log(response));
+    return axios.get(API_BASE_URL, { headers: authHeader() });
   }
 
   getShiftPlan(userId) {

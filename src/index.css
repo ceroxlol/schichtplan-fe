@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+}
