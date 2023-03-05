@@ -15,7 +15,7 @@ export default function Login() {
       console.log("Logged in successfully as " + response.data.username)
       toast.info("Welcome " + response.data.username)
       localStorage.setItem("user", JSON.stringify(response.data))
-      navigate("/")
+      navigate("/shiftplan/" + response.data.userId)
     }
     else{
       toast.error("Something went wrong...")

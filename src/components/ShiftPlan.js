@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import shift from "../services/shift";
+import shiftService from "../services/shift";
 import authService from "../services/auth";
+import userService from "../services/user";
+import {defaultTimeStart, defaultTimeEnd, interval, sidebarWidth, lineHeight} from '../config';
 
 import Timeline from 'react-calendar-timeline'
 // make sure you include the timeline stylesheet or the timeline will not be styled
 import 'react-calendar-timeline/lib/Timeline.css'
+import './style.css'
 import moment from 'moment'
 
 const ShiftPlan = () => {
@@ -17,23 +20,33 @@ const ShiftPlan = () => {
   const [groups, setGroups] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      var response;
-      if (id) {
-        response = await shift.getShiftPlan(id)
-        //TODO: Set the groups correctly
-        setGroups([{ id: id, title: "TEST" }])
-      } else {
-        response = await shift.getAllShiftPlans()
-        const group = await response.data[0].group
-        setGroups([{ id: group, title: "ALL TEST"}])
+    const fetchScheduleData = async () => {
+      try {
+        const response = id ? await shiftService.getShiftPlan(id) : await shiftService.getAllShiftPlans();
+        const data = await response.data;
+        setItems(data);
+        setLoading(false);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          console.log('Unauthorized access!');
+          navigate("/login")
+        } else {
+          console.error(error);
+        }
       }
-      const data = await response.data;
-      setItems(data);
-      setLoading(false);
     }
 
-    fetchData();
+    fetchScheduleData();
+  }, [id, navigate]);
+
+  useEffect(() => {
+    const fetchUsersData = async () => {
+      const response = await (id ? userService.getCurrentUser() : userService.getAllUsers());
+      const data = Array.isArray(response.data) ? response.data : [response.data];
+      setGroups(data.map(user => ({ id: user.userId, title: user.username })));
+    }
+
+    fetchUsersData();
   }, [id]);
 
   useEffect(() => {
@@ -42,6 +55,7 @@ const ShiftPlan = () => {
       navigate("/");
     } else {
       setUsername(user.username)
+      setGroups([{ id: user.userId, title: user.username }])
     }
   }, [navigate]);
 
@@ -69,10 +83,11 @@ const ShiftPlan = () => {
             <Timeline
               groups={groups}
               items={items}
-              defaultTimeStart={moment().add(-12, 'hour')}
-              defaultTimeEnd={moment().add(12, 'hour')}
-              itemHeightRatio={1.75}
-              canResize
+              defaultTimeStart={defaultTimeStart}
+              defaultTimeEnd={defaultTimeEnd}
+              itemHeightRatio={0.75}
+              sidebarWidth={sidebarWidth}
+              lineHeight={lineHeight}
             />
           }
         </div>

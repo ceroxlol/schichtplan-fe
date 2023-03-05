@@ -1,11 +1,16 @@
 import { useForm } from "react-hook-form";
 import auth from "../services/auth";
+import { useNavigate } from "react-router-dom";
 
 import "./Login.css";
 
 export default function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => { auth.register(data.userName, data.email, data.password) };
+  const navigate = useNavigate();
+  const onSubmit = data => { 
+    auth.register(data.userName, data.email, data.password);
+    navigate("/login");
+  };
 
   //console.log(watch("example")); // watch input value by passing the name of it
 
