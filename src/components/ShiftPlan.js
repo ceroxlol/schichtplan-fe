@@ -3,13 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import shiftService from "../services/shift";
 import authService from "../services/auth";
 import userService from "../services/user";
-import {defaultTimeStart, defaultTimeEnd, interval, sidebarWidth, lineHeight} from '../config';
+import { defaultTimeStart, defaultTimeEnd, interval, sidebarWidth, lineHeight } from '../config';
 
 import Timeline from 'react-calendar-timeline'
 // make sure you include the timeline stylesheet or the timeline will not be styled
 import 'react-calendar-timeline/lib/Timeline.css'
 import './style.css'
-import moment from 'moment'
 
 const ShiftPlan = () => {
   const { id } = useParams();
