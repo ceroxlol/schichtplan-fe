@@ -4,8 +4,8 @@ import moment from 'moment';
 import "./ShiftPlan.css"
 
 const ShiftForm = ({ shift, onSubmit, onCancel }) => {
-  console.log(shift)
-  const [employeeId, setEmployee] = useState(shift?.employee || '');
+  const [employeeId, setEmployee] = useState(shift?.employeeId || '');
+  const [employeeName, setEmployeeName] = useState(shift?.employeeName || '');
   const [start, setStart] = useState(shift?.start || moment());
   const [end, setEnd] = useState(shift?.end || moment().add(8, 'hours'));
 
@@ -38,7 +38,7 @@ const ShiftForm = ({ shift, onSubmit, onCancel }) => {
       </div>
       <div>
         <label htmlFor="employee-input">Employee:</label>
-        <input id="employee-input" type="text" value={employeeId} onChange={(e) => setEmployee(e.target.value)} />
+        <input id="employee-input" type="text" value={employeeName} onChange={(e) => setEmployee(e.target.value)} />
       </div>
       <div>
         <label htmlFor="start-input">Start:</label>

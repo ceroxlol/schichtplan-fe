@@ -58,9 +58,9 @@ const ShiftPlan = () => {
     setStartDate(startDate.clone().add(1, "week"));
   };
 
-  const handleCellClick = (employeeId, date) => {
+  const handleCellClick = (employeeId, employeeName, date) => {
     const shift = shifts.find((s) => s.employeeId === employeeId && moment(s.start).format("YYYY-MM-DD") === date);
-    setSelectedShift(shift || { employeeId, date, start: "", end: "" });
+    setSelectedShift(shift || { employeeId, employeeName, date, start: "", end: "" });
     setIsModalOpen(true);
   };
 
@@ -69,18 +69,20 @@ const ShiftPlan = () => {
     setIsModalOpen(false);
   };
 
-  const handleSaveModal = (shift) => {
-    console.log("Saving shift:", shift);
+  const handleSaveModal = (employeeId, start, end) => {
     setIsModalOpen(false);
     setShifts((prevShifts) => {
-      const index = prevShifts.findIndex((s) => s.id === shift.id);
+      const index = prevShifts.findIndex((s) => s.employeeId === employeeId 
+        && moment(s.start).format("YYYY-MM-DD HH:mm" === moment(start).format("YYYY-MM-DD HH:mm")));
       if (index === -1) {
         // Shift not found in the previous array, add it
+        const shift = {id: "", employeeId, title: "15-30", start, end}
+        shiftService.addShift(shift)
         return [...prevShifts, shift];
       } else {
         // Shift found in the previous array, update it
         const updatedShifts = [...prevShifts];
-        updatedShifts[index] = shift;
+        updatedShifts[index] = {id: "", employeeId, title: "15-30", start, end};
         return updatedShifts;
       }
     });
@@ -112,7 +114,7 @@ const ShiftPlan = () => {
                 const date = startDate.clone().add(i, "day").format("YYYY-MM-DD");
                 const shift = shifts.find((s) => s.employeeId === employee.id && moment(s.start).format("YYYY-MM-DD") === date);
                 return (
-                  <td key={i} onClick={() => handleCellClick(employee.id, date)}>
+                  <td key={i} onClick={() => handleCellClick(employee.id, employee.username, date)}>
                     {shift ? `${shift.title}` : ""}
                   </td>
                 );

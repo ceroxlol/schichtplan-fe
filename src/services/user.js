@@ -15,6 +15,10 @@ class UserService {
   getAllUsers() {
     return axios.get(API_URL + 'users/all', { headers: authHeader() });
   }
+
+  getUser(id) {
+    return axios.get(API_URL + '/users/' + id, { headers: authHeader() });
+  }
 }
 
 export default new UserService();

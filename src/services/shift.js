@@ -13,6 +13,9 @@ class ShiftService {
   getShiftPlan(userId) {
     return axios.get(API_BASE_URL + "/" + userId, { headers: authHeader() });
   }
+  addShift(shift){
+    return axios.post(API_BASE_URL, shift, {headers: authHeader()});
+  }
 }
 
 export default new ShiftService();

@@ -1,0 +1,67 @@
+.users-list-container {
+    max-width: 800px;
+    margin: auto;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  .users-list-header {
+    background-color: #0077cc;
+    color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .users-list-header h2 {
+    margin: 0;
+  }
+  
+  .users-list-body {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 0 0 10px 10px;
+  }
+  
+  .users-list-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .users-list-table th, .users-list-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .users-list-table th {
+    background-color: #0077cc;
+    color: #fff;
+    text-align: left;
+  }
+  
+  .users-list-table tbody tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
+  
+  .users-list-table a {
+    color: #0077cc;
+    text-decoration: none;
+  }
+  
+  .users-list-table a:hover {
+    text-decoration: underline;
+  }
+  
+  .users-list-footer {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 0 0 10px 10px;
+  }
+  
+  .users-list-footer p {
+    margin: 0;
+  }
+  

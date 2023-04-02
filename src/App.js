@@ -10,6 +10,8 @@ import Home from "./components/Home";
 import SchichtplanNavbar from "./components/Navbar";
 import Register from "./components/Register";
 import ShiftPlan from "./components/ShiftPlan3";
+import UserForm from "./components/UserForm.jsx";
+import Users from "./components/Users";
 
 export default function App() {
   return (
@@ -25,6 +27,8 @@ export default function App() {
         <Route path="/shiftplan/:id" element={<ShiftPlan/>} />
         <Route path="/shiftplan/all" element={<ShiftPlan/>} />
         <Route path="/logout" element={<Home />} />
+        <Route path="/users/:id/administration" element={<UserForm />} />
+        <Route path="/users" element={<Users />} />
       </Routes>
     </BrowserRouter>
     <ToastContainer/>
