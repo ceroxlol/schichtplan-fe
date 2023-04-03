@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 import userService from "../services/user";
 
@@ -10,48 +12,64 @@ const roles = ["HEIMLEITUNG", "MITARBEITER"];
 const UserForm = () => {
   const { id } = useParams();
 
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
   const [activated, setActivated] = useState(false);
 
-    useEffect(() => {
-    const fetchUsersData = async () => {
-      const response = await userService.getUser(id);
-      const data = await response.data;
-      console.log(data);
-      setEmail(data.email);
-      setUsername(data.username);
-      setRole(data.role);
-      setActivated(data.activated);
+  useEffect(() => {
+    if (id) {
+      const fetchUserData = async () => {
+        const response = await userService.getUser(id);
+        const data = await response.data;
+        setEmail(data.email);
+        setUsername(data.username);
+        setPassword(data.password);
+        setRole(data.role);
+        setActivated(data.activated);
+      }
+      fetchUserData();
     }
-
-    fetchUsersData();
   }, [id]);
 
   const handleRoleChange = (e) => {
     setRole(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
     const user = {
+      id,
       email,
       username,
       password,
       role,
       activated,
     };
-    console.log(user); // Just for demonstration purposes
-    // You can call an onSubmit function here to pass the user data to the parent component
+    try {
+      const response = await userService.updateUser(user);
+      if (response.status === 200) {
+        if(id){
+        toast.success("Nutzer aktualisiert.")}
+        else {
+          toast.success("Neuen Nutzer angelegt.")
+          navigate("/users")
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      // show error toast
+    }
   };
+  
 
   return (
     <form className='form-container form-body' onSubmit={handleSubmit}>
       <div className='form-header'>
-        <h2>Mitarbeiter editieren</h2>
+        <h2>{id ? 'Mitarbeiter editieren' : 'Mitarbeiter anlegen'}</h2>
       </div>
       <div>
       <label htmlFor="email">Email:</label>
@@ -69,15 +87,18 @@ const UserForm = () => {
       <label htmlFor="role">Role:</label>
         <select value={role} onChange={handleRoleChange}>
           <option value="">Select a role</option>
-          <option value="HEIMLEITUNG">HEIMLEITUNG</option>
-          <option value="MITARBEITER">MITARBEITER</option>
+          {roles.map((role) => (
+            <option key={role} value={role}>
+              {role}
+            </option>
+          ))}
         </select>
       </div>
       <div>
       <label htmlFor="activated">Activated:</label>
         <input type="checkbox" checked={activated} onChange={(e) => setActivated(e.target.checked)} />
       </div>
-      <button type="submit">Submit</button>
+      <button type="submit">Speichern</button>
     </form>
   );
 };

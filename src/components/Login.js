@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import auth from "../services/auth";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 
 import "./Login.css";
@@ -11,13 +11,13 @@ export default function Login() {
 
   const onSubmit = async data => {
     const response = await auth.login(data.email, data.password)
-    if(response && response.data){
+    if (response && response.data) {
       console.log("Logged in successfully as " + response.data.username)
-      toast.info("Welcome " + response.data.username)
+      toast.success("Welcome " + response.data.username)
       localStorage.setItem("user", JSON.stringify(response.data))
-      navigate("/shiftplan/" + response.data.userId)
+      navigate("/shiftplan/" + response.data.id)
     }
-    else{
+    else {
       toast.error("Something went wrong...")
     }
   };
@@ -35,7 +35,7 @@ export default function Login() {
               type="email"
               className="form-control mt-1"
               placeholder="E-Mail-Adresse"
-              {...register("email", { required: true})} />
+              {...register("email", { required: true })} />
           </div>
           {errors.email && <p>Das Feld ist ungültig</p>}
 

@@ -17,7 +17,11 @@ class UserService {
   }
 
   getUser(id) {
-    return axios.get(API_URL + '/users/' + id, { headers: authHeader() });
+    return axios.get(API_URL + 'users/' + id, { headers: authHeader() });
+  }
+
+  updateUser(user) {
+    return axios.post(API_URL + 'users/' + user.id, user, { headers: authHeader() });
   }
 }
 

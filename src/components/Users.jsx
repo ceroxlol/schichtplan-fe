@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import userService from "../services/user";
 import "./Users.css";
 
 function Users() {
   const [employees, setEmployees] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsersData = async () => {
@@ -18,30 +19,42 @@ function Users() {
     fetchUsersData();
   }, []);
 
+  const handleAddEmployee = () => {
+    navigate('/users/add');
+  }
+
   return (
     <div className="users-list-container">
-      <h1>Employee List</h1>
-      <table className="users-list-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map(employee => (
-            <tr key={employee.id} className="users-list-row">
-              <td>{employee.username}</td>
-              <td>{employee.email}</td>
-              <td>{employee.role}</td>
-              <td>
-                <Link to={`/users/${employee.id}/administration`}>Edit</Link>
-              </td>
+      <div className="users-list-header">
+        <h2>Employee List</h2>
+      </div>
+      <div className="users-list-body">
+        <table className="users-list-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {employees.map(employee => (
+              <tr key={employee.id} className="users-list-row">
+                <td>{employee.username}</td>
+                <td>{employee.email}</td>
+                <td>{employee.role}</td>
+                <td>
+                  <Link to={`/users/${employee.id}/administration`}>Edit</Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="users-list-footer">
+        <button onClick={handleAddEmployee}>Add new employee</button>
+      </div>
     </div>
   );
 }

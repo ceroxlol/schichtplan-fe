@@ -29,6 +29,7 @@ export default function App() {
         <Route path="/logout" element={<Home />} />
         <Route path="/users/:id/administration" element={<UserForm />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/users/add" element={<UserForm />} />
       </Routes>
     </BrowserRouter>
     <ToastContainer/>

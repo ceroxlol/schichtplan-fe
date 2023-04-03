@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import Modal from "react-modal";
 
@@ -12,7 +12,10 @@ import "./ShiftPlan.css"
 Modal.setAppElement("#root");
 
 const ShiftPlan = () => {
+  const {id} = useParams();
+
   const navigate = useNavigate();
+  
   const [startDate, setStartDate] = useState(moment().startOf("week"));
   const [employees, setEmployees] = useState([]);
   const [shifts, setShifts] = useState([]);
@@ -21,21 +24,20 @@ const ShiftPlan = () => {
 
   useEffect(() => {
     const fetchUsersData = async () => {
-      const response = await userService.getAllUsers();
+      const response = await ( id ? userService.getUser(id) : userService.getAllUsers());
       const data = Array.isArray(response.data) ? response.data : [response.data];
       setEmployees(data)
     }
 
     fetchUsersData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const fetchScheduleData = async () => {
       try {
-        const response = await shiftService.getAllShiftPlans();
+        const response = await (id ? shiftService.getShiftPlan(id) : shiftService.getAllShiftPlans());
         const data = await response.data;
         setShifts(data);
-        console.log(data);
         // setLoading(false);
       } catch (error) {
         if (error.response && error.response.status === 401) {
@@ -48,7 +50,7 @@ const ShiftPlan = () => {
     }
 
     fetchScheduleData();
-  }, [navigate])
+  }, [id, navigate])
 
   const handlePrevWeekClick = () => {
     setStartDate(startDate.clone().subtract(1, "week"));
