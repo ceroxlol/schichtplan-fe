@@ -12,10 +12,10 @@ import "./ShiftPlan.css"
 Modal.setAppElement("#root");
 
 const ShiftPlan = () => {
-  const {id} = useParams();
+  const { id } = useParams();
 
   const navigate = useNavigate();
-  
+
   const [startDate, setStartDate] = useState(moment().startOf("week"));
   const [employees, setEmployees] = useState([]);
   const [shifts, setShifts] = useState([]);
@@ -24,7 +24,7 @@ const ShiftPlan = () => {
 
   useEffect(() => {
     const fetchUsersData = async () => {
-      const response = await ( id ? userService.getUser(id) : userService.getAllUsers());
+      const response = await (id ? userService.getUser(id) : userService.getAllUsers());
       const data = Array.isArray(response.data) ? response.data : [response.data];
       setEmployees(data)
     }
@@ -62,7 +62,15 @@ const ShiftPlan = () => {
 
   const handleCellClick = (employeeId, employeeName, date) => {
     const shift = shifts.find((s) => s.employeeId === employeeId && moment(s.start).format("YYYY-MM-DD") === date);
-    setSelectedShift(shift || { employeeId, employeeName, date, start: "", end: "" });
+    const selectedShift = {
+      employeeId,
+      employeeName,
+      date,
+      start: "",
+      end: "",
+      ...shift,
+    };
+    setSelectedShift(selectedShift);
     setIsModalOpen(true);
   };
 
@@ -71,24 +79,45 @@ const ShiftPlan = () => {
     setIsModalOpen(false);
   };
 
-  const handleSaveModal = (employeeId, start, end) => {
+  const handleSaveModal = async (employeeId, start, end) => {
     setIsModalOpen(false);
-    setShifts((prevShifts) => {
-      const index = prevShifts.findIndex((s) => s.employeeId === employeeId 
-        && moment(s.start).format("YYYY-MM-DD HH:mm" === moment(start).format("YYYY-MM-DD HH:mm")));
+    try {
+      const formattedStart = moment(start).toISOString();
+      const formattedEnd = moment(end).toISOString();
+      const title = formatTimeRange(start, end);
+      const index = shifts.findIndex((s) => s.employeeId === employeeId && moment(s.start).isSame(moment(start), 'day'));
       if (index === -1) {
-        // Shift not found in the previous array, add it
-        const shift = {id: "", employeeId, title: "15-30", start, end}
-        shiftService.addShift(shift)
-        return [...prevShifts, shift];
+        var newShift = { id: null, employeeId, title: title, start: formattedStart, end: formattedEnd };
+        const response = await shiftService.upsertShift(newShift);
+        newShift.id = response.data.id;
+        setShifts(prevShifts => [...prevShifts, newShift]);
       } else {
-        // Shift found in the previous array, update it
-        const updatedShifts = [...prevShifts];
-        updatedShifts[index] = {id: "", employeeId, title: "15-30", start, end};
-        return updatedShifts;
+        const shiftToUpdate = shifts[index];
+        const updatedShift = {...shiftToUpdate, title: title, start: formattedStart, end: formattedEnd};
+        await shiftService.upsertShift(updatedShift);
+        shifts.splice(index, 1, updatedShift);
+        setShifts([...shifts]);
       }
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  function formatTimeRange(start, end) {
+    return moment(start).format("HH:mm") + " - " + moment(end).format("HH:mm");
+  }
+
+  const handleDeleteModal = async () => {
+    setIsModalOpen(false);
+    console.log("delete shift")
+    try {
+      await shiftService.deleteShift(selectedShift.id);
+      setShifts(shifts.filter(shift => shift.id !== selectedShift.id));
+    } catch (error) {
+      // Handle error
+    }
+  };
+  
 
   return (
     <div className="shift-schedule-container">
@@ -126,7 +155,7 @@ const ShiftPlan = () => {
         </tbody>
       </table>
       <Modal isOpen={isModalOpen} onRequestClose={handleCloseModal}>
-        <ShiftForm shift={selectedShift} onSubmit={handleSaveModal} onCancel={handleCloseModal} />
+        <ShiftForm shift={selectedShift} onSubmit={handleSaveModal} onCancel={handleCloseModal} onDelete={handleDeleteModal} />
       </Modal>
     </div>
   );

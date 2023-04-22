@@ -3,27 +3,28 @@ import moment from 'moment';
 
 import "./ShiftPlan.css"
 
-const ShiftForm = ({ shift, onSubmit, onCancel }) => {
-  const [employeeId, setEmployee] = useState(shift?.employeeId || '');
-  const [employeeName, setEmployeeName] = useState(shift?.employeeName || '');
-  const [start, setStart] = useState(shift?.start || moment());
-  const [end, setEnd] = useState(shift?.end || moment().add(8, 'hours'));
+const ShiftForm = ({ shift, onSubmit, onCancel, onDelete }) => {
+  const [employeeId, setEmployeeId] = useState('');
+  const [employeeName, setEmployeeName] = useState('');
+  const [start, setStart] = useState(moment());
+  const [end, setEnd] = useState(moment());
 
   useEffect(() => {
-    if (shift) {
-      setEmployee(shift.employeeId);
-      setStart(shift?.start || moment());
-      setEnd(shift?.end || moment().add(8, 'hours'));
-    } else {
-      setEmployee('');
-      setStart(moment().startOf('hour').add(9, 'hours'));
-      setEnd(moment().startOf('hour').add(17, 'hours'));
-    }
+    if(shift){
+    setEmployeeId(shift.employeeId);
+    setEmployeeName(shift.employeeName);
+    setStart(shift?.start ? moment(shift.start) : moment(shift.date, 'YYYY-MM-DD').startOf('day').set('hour', 9));
+    setEnd(shift?.end ? moment(shift.end) : moment(shift.date, 'YYYY-MM-DD').startOf('day').set('hour', 18));}
   }, [shift]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(employeeId, start, end);
+  };
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    onDelete(shift.id);
   };
 
   const handleCancel = (e) => {
@@ -38,7 +39,7 @@ const ShiftForm = ({ shift, onSubmit, onCancel }) => {
       </div>
       <div>
         <label htmlFor="employee-input">Employee:</label>
-        <input id="employee-input" type="text" value={employeeName} onChange={(e) => setEmployee(e.target.value)} />
+        <input id="employee-input" type="text" value={employeeName} onChange={(e) => setEmployeeId(e.target.value)} />
       </div>
       <div>
         <label htmlFor="start-input">Start:</label>
@@ -50,6 +51,7 @@ const ShiftForm = ({ shift, onSubmit, onCancel }) => {
       </div>
       <div>
         <button type="submit">{shift ? 'Update' : 'Create'}</button>
+        {shift && <button type="button" onClick={handleDelete} className='shift-form-delete-button'>Delete</button>}
         <button type="button" onClick={handleCancel}>Cancel</button>
       </div>
     </form>

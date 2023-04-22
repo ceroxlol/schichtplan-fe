@@ -13,8 +13,13 @@ class ShiftService {
   getShiftPlan(userId) {
     return axios.get(API_BASE_URL + "/" + userId, { headers: authHeader() });
   }
-  addShift(shift){
+
+  upsertShift(shift){
     return axios.post(API_BASE_URL, shift, {headers: authHeader()});
+  }
+
+  deleteShift(shiftId){
+    return axios.delete(API_BASE_URL + "/" + shiftId, { headers: authHeader() });
   }
 }
 
