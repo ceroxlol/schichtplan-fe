@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import userService from "../services/user";
 import "./Users.css";
@@ -13,7 +13,6 @@ function Users() {
       const response = await userService.getAllUsers();
       const data = Array.isArray(response.data) ? response.data : [response.data];
       setEmployees(data)
-      console.log(data)
     }
 
     fetchUsersData();
@@ -26,7 +25,7 @@ function Users() {
   return (
     <div className="users-list-container">
       <div className="users-list-header">
-        <h2>Employee List</h2>
+        <h2>Mitarbeiterverzeichnis</h2>
       </div>
       <div className="users-list-body">
         <table className="users-list-table">
@@ -34,26 +33,22 @@ function Users() {
             <tr>
               <th>Name</th>
               <th>Email</th>
-              <th>Role</th>
-              <th>Action</th>
+              <th>Rolle</th>
             </tr>
           </thead>
           <tbody>
             {employees.map(employee => (
-              <tr key={employee.id} className="users-list-row">
+              <tr key={employee.id} className="users-list-row" onClick={() => navigate(`/users/${employee.id}/administration`)}>
                 <td>{employee.username}</td>
                 <td>{employee.email}</td>
                 <td>{employee.role}</td>
-                <td>
-                  <Link to={`/users/${employee.id}/administration`}>Edit</Link>
-                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <div className="users-list-footer">
-        <button onClick={handleAddEmployee}>Add new employee</button>
+        <button onClick={handleAddEmployee}>Neuen Mitarbeiter hinzufügen</button>
       </div>
     </div>
   );

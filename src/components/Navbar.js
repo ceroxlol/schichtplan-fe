@@ -24,7 +24,7 @@ export default function SchichtplanNavbar() {
             <Nav.Link as={Link} to={`/shiftplan/${user.id}`}>Mein Schichtplan</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link as={Link} to={`/shiftplan/all`}>Schichtplan Alle</Nav.Link>
+            <Nav.Link as={Link} to={`/shiftplan/all`}>Gesamter Schichtplan</Nav.Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link as={Link} to={`/users`}>Nutzerübersicht</Nav.Link>

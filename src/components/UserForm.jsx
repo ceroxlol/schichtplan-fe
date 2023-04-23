@@ -52,8 +52,9 @@ const UserForm = () => {
     try {
       const response = await userService.updateUser(user);
       if (response.status === 200) {
-        if(id){
-        toast.success("Nutzer aktualisiert.")}
+        if (id) {
+          toast.success("Nutzer aktualisiert.")
+        }
         else {
           toast.success("Neuen Nutzer angelegt.")
           navigate("/users")
@@ -64,42 +65,44 @@ const UserForm = () => {
       // show error toast
     }
   };
-  
+
 
   return (
-    <form className='form-container form-body' onSubmit={handleSubmit}>
-      <div className='form-header'>
-        <h2>{id ? 'Mitarbeiter editieren' : 'Mitarbeiter anlegen'}</h2>
-      </div>
-      <div>
-      <label htmlFor="email">Email:</label>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      </div>
-      <div>
-        <label>Username:</label>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-      </div>
-      <div>
-      <label htmlFor="password">Password:</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      </div>
-      <div>
-      <label htmlFor="role">Role:</label>
-        <select value={role} onChange={handleRoleChange}>
-          <option value="">Select a role</option>
-          {roles.map((role) => (
-            <option key={role} value={role}>
-              {role}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-      <label htmlFor="activated">Activated:</label>
-        <input type="checkbox" checked={activated} onChange={(e) => setActivated(e.target.checked)} />
-      </div>
-      <button type="submit">Speichern</button>
-    </form>
+    <div className="form-container form-body">
+      <form className='form-body' onSubmit={handleSubmit}>
+        <div className='form-header'>
+          <h2>{id ? 'Mitarbeiter editieren' : 'Mitarbeiter anlegen'}</h2>
+        </div>
+        <div>
+          <label htmlFor="email">Email:</label>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </div>
+        <div>
+          <label>Username:</label>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+        </div>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+        <div>
+          <label htmlFor="role">Role:</label>
+          <select value={role} onChange={handleRoleChange}>
+            <option value="">Select a role</option>
+            {roles.map((role) => (
+              <option key={role} value={role}>
+                {role}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="activated">Activated:</label>
+          <input type="checkbox" checked={activated} onChange={(e) => setActivated(e.target.checked)} />
+        </div>
+      </form>
+      <button className="form-button" type="submit">Speichern</button>
+    </div>
   );
 };
 
