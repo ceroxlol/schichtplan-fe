@@ -61,7 +61,9 @@
     margin-bottom: 10px;
 }
 
-.form-body button {
+.form-button {
+    display: flex;
+    float: left;
     background-color: #0077cc;
     color: #fff;
     border: none;
@@ -70,17 +72,18 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.2s;
+    margin-right: auto;
 }
 
-.form-body button:hover {
+.form-button button:hover {
     background-color: #0066b3;
 }
 
-.form-body button[type="button"] {
+.form-button button[type="button"] {
     background-color: #f5f5f5;
     color: #333;
 }
 
-.form-body button[type="button"]:hover {
+.form-button button[type="button"]:hover {
     background-color: #e8e8e8;
 }

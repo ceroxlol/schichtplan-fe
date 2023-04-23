@@ -1,174 +1,219 @@
 /* Shift Schedule Container */
 .shift-schedule-container {
-    max-width: 800px;
-    margin: auto;
-  }
-  
-  /* Shift Schedule Header */
-  .shift-schedule-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .shift-schedule-header h2 {
-    margin: 0;
-    font-size: 24px;
-    color: #555;
-  }
-  
-  .shift-schedule-header button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #0077cc;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .shift-schedule-header button:hover {
-    background-color: #005fa3;
-  }
-  
-  /* Shift Schedule Table */
-  .shift-schedule-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .shift-schedule-table th,
-  .shift-schedule-table td {
-    padding: 15px;
-    text-align: center;
-  }
-  
-  .shift-schedule-table th {
-    background-color: #0077cc;
-    color: #fff;
-  }
-  
-  .shift-schedule-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  .shift-schedule-table tbody tr:hover {
-    background-color: #f8f8f8;
-    cursor: pointer;
-  }
-  
-  .shift-schedule-table td.shift-employee {
-    font-weight: bold;
-  }
-  
-  .shift-schedule-table td.shift-date {
-    font-style: italic;
-  }
-  
-  .shift-schedule-table td.shift-start,
-  .shift-schedule-table td.shift-end {
-    font-weight: bold;
-    font-size: 18px;
-  }
-  
-  .shift-schedule-table td.actions {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .shift-schedule-table td.actions button {
-    margin-left: 10px;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #0077cc;
-    color: #fff;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .shift-schedule-table td.actions button:hover {
-    background-color: #005fa3;
-  }
-  
+  max-width: 80%;
+  margin: auto;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.shift-schedule-container button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #0077cc;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.shift-schedule-container button:hover {
+  background-color: #005fa3;
+}
+
+/* Shift Schedule Header */
+.shift-schedule-header {
+  background-color: #0077cc;
+  color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px 10px 0 0;
+}
+
+.shift-schedule-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+/* Shift Schedule Table */
+.shift-schedule-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.shift-schedule-table th,
+.shift-schedule-table td {
+  padding: 15px;
+  text-align: center;
+}
+
+.shift-schedule-table th {
+  background-color: #0077cc;
+  color: #fff;
+}
+
+.shift-schedule-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.shift-schedule-table tbody tr:hover {
+  background-color: #f8f8f8;
+  cursor: pointer;
+}
+
+.shift-schedule-table td.shift-employee {
+  font-weight: bold;
+}
+
+.shift-schedule-table td.shift-date {
+  font-style: italic;
+}
+
+.shift-schedule-table td.shift-start,
+.shift-schedule-table td.shift-end {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.shift-schedule-table td.actions {
+  display: flex;
+  justify-content: center;
+}
+
+.shift-schedule-table td.actions button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #0077cc;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.shift-schedule-table td.actions button:hover {
+  background-color: #005fa3;
+}
+
 
 /* Shift Form */
 .shift-form-container {
-    max-width: 500px;
-    margin: auto;
-    background-color: #f5f5f5;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
+  max-width: 500px;
+  margin: auto;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
 }
 
 .shift-form-header {
-    background-color: #0077cc;
-    color: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px 10px 0 0;
+  background-color: #0077cc;
+  color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px 10px 0 0;
 }
 
 .shift-form-header h2 {
-    margin: 0;
+  margin: 0;
 }
 
 .shift-form-body {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 0 0 10px 10px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 0 0 10px 10px;
 }
 
 .shift-form-body label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .shift-form-body input[type="text"],
 .shift-form-body input[type="datetime-local"] {
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 20px;
-    width: 100%;
-    font-size: 16px;
-    box-sizing: border-box;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
 .shift-form-body input[type="text"]:focus,
 .shift-form-body input[type="datetime-local"]:focus {
-    outline: none;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  outline: none;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.shift-form-buttons {
+  display: flex;
+  justify-content: space-between;
 }
 
 .shift-form-body button {
-    background-color: #0077cc;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    margin-right: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  background-color: #0077cc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-right: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .shift-form-body button:hover {
-    background-color: #0066b3;
+  background-color: #0066b3;
 }
 
 .shift-form-body button[type="button"] {
-    background-color: #f5f5f5;
-    color: #333;
+  background-color: #f5f5f5;
+  color: #333;
 }
 
 .shift-form-body button[type="button"]:hover {
-    background-color: #e8e8e8;
+  background-color: #e8e8e8;
+}
+
+.shift-form-body button.shift-form-delete-button {
+  background-color: #ff0000; /* red background */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-right: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.shift-form-body button.shift-form-delete-button:hover {
+  background-color: #cc0000; /* darker red on hover */
+}
+
+.shift-form-cancel-button {
+  background-color: #f5f5f5;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.shift-form-cancel-button:hover {
+  background-color: #e8e8e8;
+}
+
+.shift-form-cancel-button:last-child {
+  margin-left: auto;
 }

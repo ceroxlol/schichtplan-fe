@@ -9,6 +9,8 @@ import ShiftForm from "./ShiftForm";
 
 import "./ShiftPlan.css"
 
+import 'moment/locale/de';
+
 Modal.setAppElement("#root");
 
 const ShiftPlan = () => {
@@ -66,8 +68,8 @@ const ShiftPlan = () => {
       employeeId,
       employeeName,
       date,
-      start: "",
-      end: "",
+      start: null,
+      end: null,
       ...shift,
     };
     setSelectedShift(selectedShift);
@@ -75,7 +77,6 @@ const ShiftPlan = () => {
   };
 
   const handleCloseModal = () => {
-    setSelectedShift(null);
     setIsModalOpen(false);
   };
 
@@ -93,7 +94,7 @@ const ShiftPlan = () => {
         setShifts(prevShifts => [...prevShifts, newShift]);
       } else {
         const shiftToUpdate = shifts[index];
-        const updatedShift = {...shiftToUpdate, title: title, start: formattedStart, end: formattedEnd};
+        const updatedShift = { ...shiftToUpdate, title: title, start: formattedStart, end: formattedEnd };
         await shiftService.upsertShift(updatedShift);
         shifts.splice(index, 1, updatedShift);
         setShifts([...shifts]);
@@ -117,23 +118,23 @@ const ShiftPlan = () => {
       // Handle error
     }
   };
-  
+
 
   return (
     <div className="shift-schedule-container">
       <div className="shift-schedule-header">
-        <h2>Shift Schedule</h2>
-        <div>
-          <button className="shift-schedule-header-button" onClick={handlePrevWeekClick}>Prev Week</button>
-          <button className="shift-schedule-header-button" onClick={handleNextWeekClick}>Next Week</button>
-        </div>
+        {id ? <h2>Mein Schichtplan</h2> : <h2>Genereller Schichtplan</h2>}
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <button className="shift-schedule-container-button" onClick={handlePrevWeekClick}>Vorherige Woche</button>
+        <button className="shift-schedule-container-button" onClick={handleNextWeekClick}>Nächste Woche</button>
       </div>
       <table className="shift-schedule-table">
         <thead>
           <tr>
-            <th></th>
+            <th>Name</th>
             {Array.from({ length: 7 }).map((_, i) => (
-              <th key={i}>{startDate.clone().add(i, "day").format("MMM DD")}</th>
+              <th key={i}>{startDate.clone().add(i, "day").locale("DE").format("ddd DD.MM.")}</th>
             ))}
           </tr>
         </thead>
