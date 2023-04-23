@@ -1,0 +1,119 @@
+/* Form */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: auto;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.form-header {
+    display: flex;
+    justify-content: center;
+    background-color: #0077cc;
+    color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px 10px 0 0;
+}
+
+.form-header h2 {
+    margin: 0;
+}
+
+.form-body {
+    background-color: #fff;
+}
+
+.form-body div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-body div label {
+    flex-basis: 120px;
+    margin-left: 10px;
+}
+
+.form-body div input[type="email"],
+.form-body div input[type="text"],
+.form-body div input[type="password"],
+.form-body div select {
+    margin-right: 10px;
+    flex-grow: 1;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-body input[type="datetime-local"]:focus {
+    outline: none;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+.form-body div button {
+    background-color: #0077cc;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.form-body div button:hover {
+    background-color: #0066b3;
+}
+
+.form-body div button[type="button"] {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.form-body div button[type="button"]:hover {
+    background-color: #e8e8e8;
+}
+
+.form-body div button.form-delete-button {
+    background-color: #ff0000;
+    /* red background */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-right: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.form-body div button.form-delete-button:hover {
+    background-color: #cc0000;
+    /* darker red on hover */
+}
+
+.form-body div button.form-cancel-button {
+    background-color: #f5f5f5;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.form-body div button.form-cancel-button:hover {
+    background-color: #e8e8e8;
+}
+
+.form-body div button.form-cancel-button:last-child {
+    margin-left: auto;
+    margin-right: 10px;
+}

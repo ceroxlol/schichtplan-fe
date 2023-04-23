@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 
-import "./ShiftPlan.css"
+import "./Form.css"
 
 const ShiftForm = ({ shift, onSubmit, onCancel, onDelete }) => {
   const [employeeId, setEmployeeId] = useState('');
@@ -37,8 +37,8 @@ const ShiftForm = ({ shift, onSubmit, onCancel, onDelete }) => {
 
 
   return (
-    <form className='shift-form-container shift-form-body' onSubmit={handleSubmit}>
-      <div className='shift-form-header'>
+    <form className='form-container form-body' onSubmit={handleSubmit}>
+      <div className='form-header'>
         <h2>{isNewShift ? 'Neue Schicht anlegen' : 'Schicht editieren'}</h2>
       </div>
       <div>
@@ -53,10 +53,10 @@ const ShiftForm = ({ shift, onSubmit, onCancel, onDelete }) => {
         <label htmlFor="end-input">Ende:</label>
         <input id="end-input" type="datetime-local" value={end.format('YYYY-MM-DDTHH:mm')} onChange={(e) => setEnd(moment(e.target.value))} />
       </div>
-      <div className="shift-form-buttons">
+      <div className="form-buttons">
         <button type="submit">Speichern</button>
-        {!isNewShift && <button type="button" onClick={handleDelete} className='shift-form-delete-button'>Löschen</button>}
-        <button type="button" onClick={handleCancel}>Abbrechen</button>
+        {!isNewShift && <button type="button" onClick={handleDelete} className='form-delete-button'>Löschen</button>}
+        <button type="button" onClick={handleCancel} className='form-cancel-button'>Abbrechen</button>
       </div>
     </form>
   );

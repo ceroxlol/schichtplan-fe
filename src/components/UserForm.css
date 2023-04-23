@@ -62,8 +62,9 @@
 }
 
 .form-button {
-    display: flex;
-    float: left;
+    display: block;
+    margin-left: 0;
+    margin-right: auto;
     background-color: #0077cc;
     color: #fff;
     border: none;
@@ -72,7 +73,6 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.2s;
-    margin-right: auto;
 }
 
 .form-button button:hover {
@@ -86,4 +86,27 @@
 
 .form-button button[type="button"]:hover {
     background-color: #e8e8e8;
+}
+
+
+.form-field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-field label {
+    width: 100px;
+    /* adjust width as needed */
+}
+
+.form-field input,
+.form-field button {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+.form-field button {
+    width: 100px;
+    /* adjust width as needed */
 }

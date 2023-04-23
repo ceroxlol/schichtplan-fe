@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import userService from "../services/user";
 
-import "./UserForm.css";
+import "./Form.css";
 
 const roles = ["HEIMLEITUNG", "MITARBEITER"];
 
@@ -66,10 +66,15 @@ const UserForm = () => {
     }
   };
 
+  const handleCancel = (e) => {
+    e.preventDefault();
+    navigate(`/users`)
+  };
+
 
   return (
-    <div className="form-container form-body">
-      <form className='form-body' onSubmit={handleSubmit}>
+    <form className='form-container' onSubmit={handleSubmit}>
+      <div className="form-body">
         <div className='form-header'>
           <h2>{id ? 'Mitarbeiter editieren' : 'Mitarbeiter anlegen'}</h2>
         </div>
@@ -100,9 +105,12 @@ const UserForm = () => {
           <label htmlFor="activated">Activated:</label>
           <input type="checkbox" checked={activated} onChange={(e) => setActivated(e.target.checked)} />
         </div>
-      </form>
-      <button className="form-button" type="submit">Speichern</button>
-    </div>
+        <div>
+          <button type="submit">Speichern</button>
+          <button type="button" className='form-cancel-button' onClick={handleCancel}>Abbrechen</button>
+        </div>
+      </div>
+    </form>
   );
 };
 
