@@ -62,7 +62,7 @@ const UserForm = () => {
       }
     } catch (error) {
       console.error(error);
-      // show error toast
+      toast.error("Etwas lief schief...")
     }
   };
 

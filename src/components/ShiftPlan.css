@@ -100,3 +100,45 @@
 .shift-schedule-table td.actions button:hover {
   background-color: #005fa3;
 }
+
+/* Example CSS classes for shift types */
+.vacation-shift {
+  background-color: #ffe5a7;
+  /* Set the background color for vacation shifts */
+}
+
+.sick-leave-shift {
+  background-color: #ffbdbd;
+  /* Set the background color for sick leave shifts */
+}
+
+.shift-indicators {
+  display: flex;
+  align-items: center;
+  /* Vertically align the indicators and text */
+  justify-content: center;
+  /* Horizontally center the indicators and text */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.shift-indicators span {
+  margin-right: 15px;
+  /* Add left margin for spacing */
+}
+
+.shift-indicators .indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+.shift-indicators .indicator.vacation-shift {
+  background-color: #ffe5a7;
+}
+
+.shift-indicators .indicator.sick-leave-shift {
+  background-color: #ffbdbd;
+}
