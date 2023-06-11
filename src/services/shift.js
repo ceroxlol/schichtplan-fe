@@ -23,4 +23,5 @@ class ShiftService {
   }
 }
 
-export default new ShiftService();
+const shiftService = new ShiftService();
+export default shiftService;

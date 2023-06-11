@@ -3,13 +3,16 @@ import axios from "axios";
 const API_URL = "http://localhost:8080/users/";
 
 class AuthService {
-  login(email, password) {
-    return axios
-      .post(API_URL + "login", {
-        email: email,
-        password: password
-      })
-      .catch(console.log)
+  async login(email, password) {
+    try {
+      return await axios
+        .post(API_URL + "login", {
+          email: email,
+          password: password
+        });
+    } catch (message) {
+      return console.log(message);
+    }
   }
 
   logout() {
@@ -37,4 +40,5 @@ class AuthService {
   }
 }
 
-export default new AuthService();
+const authService = new AuthService();
+export default authService;

@@ -17,7 +17,19 @@ const ShiftForm = ({ shift, onSubmit, onCancel, onDelete }) => {
   const [pause, setPause] = useState("");
 
   useEffect(() => {
-    calculatePause();
+    const calculatePause = () => {
+      const duration = moment.duration(end.diff(start)).asHours();
+  
+      if (duration < 6) {
+        setPause("Keine Pause");
+      } else if (duration < 8) {
+        setPause("30 Minuten Pause");
+      } else {
+        setPause("45 Minuten Pause");
+      }
+    };
+
+    setPause(calculatePause);
   }, [start, end]);
 
   useEffect(() => {
@@ -48,18 +60,6 @@ const ShiftForm = ({ shift, onSubmit, onCancel, onDelete }) => {
   const handleTypeChange = (e) => {
     setType(e.target.value);
     console.log(e.target.value);
-  };
-
-  const calculatePause = () => {
-    const duration = moment.duration(end.diff(start)).asHours();
-
-    if (duration < 6) {
-      setPause("Keine Pause");
-    } else if (duration < 8) {
-      setPause("30 Minuten Pause");
-    } else {
-      setPause("45 Minuten Pause");
-    }
   };
 
   return (
