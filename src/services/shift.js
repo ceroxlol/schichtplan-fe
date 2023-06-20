@@ -1,25 +1,25 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_BASE_URL = 'http://localhost:8080/shifts';
+const API_URL = process.env.BACKEND_URL + "shifts" || 'http://localhost:8080/shifts';
 
 
 class ShiftService {
 
   getAllShiftPlans() {
-    return axios.get(API_BASE_URL, { headers: authHeader() });
+    return axios.get(API_URL, { headers: authHeader() });
   }
 
   getShiftPlan(userId) {
-    return axios.get(API_BASE_URL + "/" + userId, { headers: authHeader() });
+    return axios.get(API_URL + "/" + userId, { headers: authHeader() });
   }
 
   upsertShift(shift){
-    return axios.post(API_BASE_URL, shift, {headers: authHeader()});
+    return axios.post(API_URL, shift, {headers: authHeader()});
   }
 
   deleteShift(shiftId){
-    return axios.delete(API_BASE_URL + "/" + shiftId, { headers: authHeader() });
+    return axios.delete(API_URL + "/" + shiftId, { headers: authHeader() });
   }
 }
 

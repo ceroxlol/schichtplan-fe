@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/users/";
+const API_URL = process.env.BACKEND_URL + 'users/' || 'http://localhost:8080/users/';
 
 class AuthService {
   async login(email, password) {
