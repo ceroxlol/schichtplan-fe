@@ -1,12 +1,13 @@
 import axios from "axios";
+import { BACKEND_URL } from '../constants';
 
-const API_URL = process.env.BACKEND_URL + 'users/' || 'http://localhost:8080/users/';
+const url = `${BACKEND_URL}/users`;
 
 class AuthService {
   async login(email, password) {
     try {
       return await axios
-        .post(API_URL + "login", {
+        .post(`${url}/login`, {
           email: email,
           password: password
         });
@@ -20,15 +21,15 @@ class AuthService {
   }
 
   async register(username, email, password) {
-    const response = await axios.post(API_URL + "register", {
+    const response = await axios.post(`${url}/register`, {
       username,
       email,
       password
     })
     .then((response) => {
       if (response.data.token) {
-        localStorage.setItem("user", JSON.stringify(response.data));
-        console.log("Registered in successfully.")
+        localStorage.setItem('user', JSON.stringify(response.data));
+        console.log('Registered in successfully.')
       }
     })
     .catch(console.log);

@@ -1,27 +1,28 @@
 import axios from 'axios';
 import authHeader from './auth-header';
+import { BACKEND_URL } from '../constants';
 
-const API_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
+const url = `${BACKEND_URL}`;
 
 class UserService {
   getPublicContent() {
-    return axios.get(API_URL + 'all');
+    return axios.get(`${url}/all`);
   }
 
   getCurrentUser() {
-    return axios.get(API_URL + 'user', { headers: authHeader() });
+    return axios.get(`${url}/user`, { headers: authHeader() });
   }
 
   getAllUsers() {
-    return axios.get(API_URL + 'users/all', { headers: authHeader() });
+    return axios.get(`${url}/users/all`, { headers: authHeader() });
   }
 
   getUser(id) {
-    return axios.get(API_URL + 'users/' + id, { headers: authHeader() });
+    return axios.get(`${url}/users/${id}`, { headers: authHeader() });
   }
 
   updateUser(user) {
-    return axios.post(API_URL + 'users/' + user.id, user, { headers: authHeader() });
+    return axios.post(`${url}/users/${user.id}`, user, { headers: authHeader() });
   }
 }
 
