@@ -1,25 +1,22 @@
-import axios from 'axios';
+import axiosInstance from '../utils/axios';
 import authHeader from './auth-header';
-import { BACKEND_URL } from '../constants';
-
-const url = `${BACKEND_URL}/shifts`;
 
 class ShiftService {
 
   getAllShiftPlans() {
-    return axios.get(url, { headers: authHeader() });
+    return axiosInstance.get(`/shifts`, { headers: authHeader() });
   }
 
   getShiftPlan(userId) {
-    return axios.get(`${url}/${userId}`, { headers: authHeader() });
+    return axiosInstance.get(`/shifts/${userId}`, { headers: authHeader() });
   }
 
   upsertShift(shift){
-    return axios.post(url, shift, {headers: authHeader()});
+    return axiosInstance.post(`/shifts`, shift, {headers: authHeader()});
   }
 
   deleteShift(shiftId){
-    return axios.delete(`${url}/${shiftId}`, { headers: authHeader() });
+    return axiosInstance.delete(`/shifts/${shiftId}`, { headers: authHeader() });
   }
 }
 

@@ -1,28 +1,25 @@
-import axios from 'axios';
+import axiosInstance from '../utils/axios';
 import authHeader from './auth-header';
-import { BACKEND_URL } from '../constants';
-
-const url = `${BACKEND_URL}`;
 
 class UserService {
   getPublicContent() {
-    return axios.get(`${url}/all`);
+    return axiosInstance.get(`/all`);
   }
 
   getCurrentUser() {
-    return axios.get(`${url}/user`, { headers: authHeader() });
+    return axiosInstance.get(`/user`, { headers: authHeader() });
   }
 
   getAllUsers() {
-    return axios.get(`${url}/users/all`, { headers: authHeader() });
+    return axiosInstance.get(`/users/all`, { headers: authHeader() });
   }
 
   getUser(id) {
-    return axios.get(`${url}/users/${id}`, { headers: authHeader() });
+    return axiosInstance.get(`/users/${id}`, { headers: authHeader() });
   }
 
   updateUser(user) {
-    return axios.post(`${url}/users/${user.id}`, user, { headers: authHeader() });
+    return axiosInstance.post(`/users/${user.id}`, user, { headers: authHeader() });
   }
 }
 

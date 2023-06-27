@@ -1,16 +1,12 @@
-import axios from "axios";
-import { BACKEND_URL } from '../constants';
-
-const url = `${BACKEND_URL}/users`;
+import axiosInstance from '../utils/axios';
 
 class AuthService {
   async login(email, password) {
     try {
-      return await axios
-        .post(`${url}/login`, {
-          email: email,
-          password: password
-        });
+      return await axiosInstance.post("/users/login", {
+        email: email,
+        password: password
+      });
     } catch (message) {
       return console.log(message);
     }
@@ -21,18 +17,18 @@ class AuthService {
   }
 
   async register(username, email, password) {
-    const response = await axios.post(`${url}/register`, {
+    const response = await axiosInstance.post("/users/register", {
       username,
       email,
       password
     })
-    .then((response) => {
-      if (response.data.token) {
-        localStorage.setItem('user', JSON.stringify(response.data));
-        console.log('Registered in successfully.')
-      }
-    })
-    .catch(console.log);
+      .then((response) => {
+        if (response.data.token) {
+          localStorage.setItem('user', JSON.stringify(response.data));
+          console.log('Registered successfully.')
+        }
+      })
+      .catch(console.log);
     return response.data;
   }
 
