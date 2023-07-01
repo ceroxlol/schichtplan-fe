@@ -11,14 +11,16 @@ export default function Login() {
 
   const onSubmit = async data => {
     const response = await auth.login(data.email, data.password)
-    if (response && response.data) {
-      console.log("Logged in successfully as " + response.data.username)
-      toast.success("Welcome " + response.data.username)
-      localStorage.setItem("user", JSON.stringify(response.data))
-      navigate("/shiftplan/" + response.data.id)
+    if (response && response.data && response.data.username) {
+      console.log(response)
+      // console.log("Logged in successfully as " + response.data.username)
+      // toast.success("Welcome " + response.data.username)
+      // localStorage.setItem("user", JSON.stringify(response.data))
+      // navigate("/shiftplan/" + response.data.id)
     }
     else {
       toast.error("Something went wrong...")
+      console.log(response)
     }
   };
 

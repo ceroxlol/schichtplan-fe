@@ -2,6 +2,7 @@ import axiosInstance from '../utils/axios';
 
 class AuthService {
   async login(email, password) {
+    console.log('url: %d', axiosInstance.getUri())
     try {
       return await axiosInstance.post("/users/login", {
         email: email,
