@@ -1,8 +1,0 @@
-FROM nginx:1.25.1-alpine
-COPY ./build /usr/share/nginx/html
-
-ENV BACKEND_URL=http://localhost:8080/
-
-# Expose it on port 80
-EXPOSE 80
-ENTRYPOINT ["nginx","-g","daemon off;"]
