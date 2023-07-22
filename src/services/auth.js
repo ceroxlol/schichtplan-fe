@@ -1,10 +1,9 @@
-import axiosInstance from '../utils/axios';
+import axios from "axios";
 
 class AuthService {
   async login(email, password) {
-    console.log('url: %s', axiosInstance.getUri())
     try {
-      return await axiosInstance.post("/users/login", {
+      return await axios.post("/api/users/login", {
         email: email,
         password: password
       });
@@ -18,7 +17,7 @@ class AuthService {
   }
 
   async register(username, email, password) {
-    await axiosInstance.post("/users/register", {
+    await axios.post("/api/users/register", {
       username,
       email,
       password
