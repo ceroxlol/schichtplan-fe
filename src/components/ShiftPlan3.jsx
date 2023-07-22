@@ -94,19 +94,21 @@ const ShiftPlan = () => {
       const index = shifts.findIndex((s) => s.employeeId === employeeId && moment(s.start).isSame(moment(start), 'day'));
       if (index === -1) {
         var newShift = { id: null, employeeId, start: formattedStart, end: formattedEnd, type };
-        //console.log(newShift);
         const response = await shiftService.upsertShift(newShift);
         newShift.id = response.data.id;
         setShifts(prevShifts => [...prevShifts, newShift]);
+        toast.done("Schicht hinzugefügt.")
       } else {
         const shiftToUpdate = shifts[index];
         const updatedShift = { ...shiftToUpdate, start: formattedStart, end: formattedEnd, type };
         await shiftService.upsertShift(updatedShift);
         shifts.splice(index, 1, updatedShift);
         setShifts([...shifts]);
+        toast.done("Schicht aktualisiert.")
       }
     } catch (error) {
       console.error(error);
+      toast.error("Etwas ist schief gelaufen...");
     }
   };
 

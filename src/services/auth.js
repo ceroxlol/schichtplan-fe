@@ -2,7 +2,7 @@ import axiosInstance from '../utils/axios';
 
 class AuthService {
   async login(email, password) {
-    console.log('url: %d', axiosInstance.getUri())
+    console.log('url: %s', axiosInstance.getUri())
     try {
       return await axiosInstance.post("/users/login", {
         email: email,
@@ -18,7 +18,7 @@ class AuthService {
   }
 
   async register(username, email, password) {
-    const response = await axiosInstance.post("/users/register", {
+    await axiosInstance.post("/users/register", {
       username,
       email,
       password
@@ -27,10 +27,10 @@ class AuthService {
         if (response.data.token) {
           localStorage.setItem('user', JSON.stringify(response.data));
           console.log('Registered successfully.')
+          return response.data;
         }
       })
       .catch(console.log);
-    return response.data;
   }
 
   getCurrentUser() {
