@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
-import userService from "../services/user";
+import users from "../services/user";
 
-import "./Form.css";
+import "./UserForm.css";
 
 const roles = ["HEIMLEITUNG", "MITARBEITER"];
 
@@ -23,7 +23,7 @@ const UserForm = () => {
   useEffect(() => {
     if (id) {
       const fetchUserData = async () => {
-        const response = await userService.getUser(id);
+        const response = await users.getUser(id);
         const data = await response.data;
         setEmail(data.email);
         setUsername(data.username);
@@ -50,7 +50,7 @@ const UserForm = () => {
       activated,
     };
     try {
-      const response = await userService.updateUser(user);
+      const response = await users.updateUser(user);
       if (response.status === 200) {
         if (id) {
           toast.success("Nutzer aktualisiert.")

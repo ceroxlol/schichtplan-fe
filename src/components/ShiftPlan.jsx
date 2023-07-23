@@ -121,7 +121,7 @@ const ShiftPlan = () => {
       console.log("delete shift")
     } catch (error) {
       console.error(error);
-      toast.error("Etwas lief schief beim anlegen der Schicht...");
+      toast.error("Etwas lief schief beim anlegen der Schicht..." + error.message);
     }
   };
 

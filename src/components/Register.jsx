@@ -1,24 +1,21 @@
 import { useForm } from "react-hook-form";
 import auth from "../services/auth";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import "./Login.css";
 
-export default function Login() {
+export default function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
 
-  const onSubmit = async data => {
-    const response = await auth.login(data.email, data.password)
-    if (response && response.data && response.data.username) {
-      localStorage.setItem("user", JSON.stringify(response.data))
-      navigate("/shiftplan/" + response.data.id)
-      console.log("Logged in successfully as " + response.data.username)
-      toast.success("Welcome " + response.data.username)
-    }
-    else {
-      toast.error("Something went wrong...")
+  const onSubmit = async (data) => {
+    try {
+      const username = await auth.register(data.userName, data.email, data.password);
+      toast.success(`Registriert als ${username}.`);
+      navigate('/login');
+    } catch (error) {
+      toast.error('Etwas lief schief...');
     }
   };
 
@@ -28,20 +25,30 @@ export default function Login() {
     <div className="Auth-form-container">
       <form className="Auth-form" onSubmit={handleSubmit(onSubmit)}>
         <div className="Auth-form-content">
-          <h3 className="Auth-form-title">Einloggen</h3>
+          <h3 className="Auth-form-title">Register</h3>
           <div className="form-group mt-3">
-            <label>E-Mail-Adresse</label>
+            <label>Vollständiger Name</label>
+            <input
+              type="text"
+              className="form-control mt-1"
+              placeholder="Vollständiger Name"
+              {...register("userName", { required: true })} />
+          </div>
+          {errors.userName && <p>Das Feld ist ungültig</p>}
+
+          <div className="form-group mt-3">
+            <label>Emailaddresse</label>
             <input
               type="email"
               className="form-control mt-1"
               placeholder="E-Mail-Adresse"
-              {...register("email", { required: true })} />
+              {...register("email")} />
           </div>
           {errors.email && <p>Das Feld ist ungültig</p>}
 
           {/* include validation with required or other standard HTML validation rules */}
           <div className="form-group mt-3">
-            <label>Passwort</label>
+            <label>Password</label>
             <input
               type="password"
               className="form-control mt-1"
@@ -50,7 +57,6 @@ export default function Login() {
           </div>
           {/* errors will return when field validation fails  */}
           {errors.password && <p>Das Feld ist ungültig</p>}
-
           <div className="d-grid gap-2 mt-3">
             <input type="submit" className="btn btn-primary" />
           </div>

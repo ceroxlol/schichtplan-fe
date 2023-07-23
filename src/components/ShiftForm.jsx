@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 
-import "./Form.css"
+import "./ShiftForm.css"
 
 const types = ["Normal", "Urlaub", "Krankheit"];
 

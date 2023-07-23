@@ -1,27 +1,26 @@
-import axios from 'axios';
+import axios from "../utils/axios";
 import authHeader from './auth-header';
 
-class UserService {
-  getPublicContent() {
+const userService = {
+  getPublicContent: () => {
     return axios.get(`/api/all`);
-  }
+  },
 
-  getCurrentUser() {
+  getCurrentUser: () => {
     return axios.get(`/api/user`, { headers: authHeader() });
-  }
+  },
 
-  getAllUsers() {
+  getAllUsers: () => {
     return axios.get(`/api/users/all`, { headers: authHeader() });
-  }
+  },
 
-  getUser(id) {
+  getUser: (id) => {
     return axios.get(`/api/users/${id}`, { headers: authHeader() });
-  }
+  },
 
-  updateUser(user) {
+  updateUser: (user) => {
     return axios.post(`/api/users/${user.id}`, user, { headers: authHeader() });
   }
 }
 
-const userService = new UserService();
 export default userService;

@@ -1,41 +1,61 @@
-import axios from "axios";
+import axios from "../utils/axios";
 
-class AuthService {
-  async login(email, password) {
+
+const authService = {
+  login: async (email, password) => {
     try {
-      return await axios.post("/api/users/login", {
+      console.log(axios.baseUrl)
+      const response = await axios.post('/api/users/login', {
         email: email,
         password: password
       });
-    } catch (message) {
-      return console.log(message);
+
+      if (response.status === 200) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+        console.log("Logged in successfully as " + response.data.username);
+        return response;
+      } else if (response.status === 401) {
+        throw new Error("Login failed. Couldn't find a user with these credentials.");
+      } else if (response.status === 400) {
+        throw new Error("Login failed. Email invalid or password blank.");
+      } else {
+        throw new Error("Unknown Error.");
+      }
+
+    } catch (error) {
+      console.log(error);
+      throw new Error(`Unknown Error occured in axios request: ${error}`);
     }
-  }
+  },
 
-  logout() {
+  logout: () => {
     localStorage.removeItem("user");
-  }
+  },
 
-  async register(username, email, password) {
-    await axios.post("/api/users/register", {
-      username,
-      email,
-      password
-    })
-      .then((response) => {
-        if (response.data.token) {
-          localStorage.setItem('user', JSON.stringify(response.data));
-          console.log('Registered successfully.')
-          return response.data;
-        }
-      })
-      .catch(console.log);
-  }
+  register: async (username, email, password) => {
+    try {
+      const response = await axios.post('/api/users/register', {
+        username,
+        email,
+        password
+      });
 
-  getCurrentUser() {
+      if (response.status === 200) {
+        console.log('Registered successfully.');
+        return response.data.username;
+      } else {
+        console.log("Registration failed.");
+        throw new Error("Registration failed.");
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error("Unexpected error during registration.");
+    }
+  },
+
+  getCurrentUser: () => {
     return JSON.parse(localStorage.getItem('user'));
   }
 }
 
-const authService = new AuthService();
 export default authService;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import userService from "../services/user";
+import users from "../services/user";
 import "./Users.css";
 
 function Users() {
@@ -10,7 +10,7 @@ function Users() {
 
   useEffect(() => {
     const fetchUsersData = async () => {
-      const response = await userService.getAllUsers();
+      const response = await users.getAllUsers();
       const data = Array.isArray(response.data) ? response.data : [response.data];
       setEmployees(data)
     }

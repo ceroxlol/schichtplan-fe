@@ -9,8 +9,8 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import SchichtplanNavbar from "./components/Navbar";
 import Register from "./components/Register";
-import ShiftPlan from "./components/ShiftPlan3";
-import UserForm from "./components/UserForm.jsx";
+import ShiftPlan from "./components/ShiftPlan";
+import UserForm from "./components/UserForm";
 import Users from "./components/Users";
 
 export default function App() {
