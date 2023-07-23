@@ -79,7 +79,7 @@ const UserForm = () => {
           <h2>{id ? 'Mitarbeiter editieren' : 'Mitarbeiter anlegen'}</h2>
         </div>
         <div>
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">E-mail</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div>
@@ -87,11 +87,11 @@ const UserForm = () => {
           <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
         <div>
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Passwort</label>
           <input type="password" disabled value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         <div>
-          <label htmlFor="role">Role:</label>
+          <label htmlFor="role">Rolle</label>
           <select value={role} onChange={handleRoleChange}>
             <option value="">Select a role</option>
             {roles.map((role) => (
@@ -102,7 +102,7 @@ const UserForm = () => {
           </select>
         </div>
         <div>
-          <label htmlFor="activated">Activated:</label>
+          <label htmlFor="activated">Aktiviert?</label>
           <input type="checkbox" checked={activated} onChange={(e) => setActivated(e.target.checked)} />
         </div>
         <div>
