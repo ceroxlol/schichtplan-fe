@@ -38,6 +38,13 @@
   font-size: 24px;
 }
 
+.table-container {
+  overflow-x: auto;
+  max-width: 100%;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 /* Shift Schedule Table */
 .shift-schedule-table {
   border-collapse: collapse;

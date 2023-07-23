@@ -135,14 +135,14 @@ const ShiftPlan = () => {
       const end = moment(shift.end);
 
       if (start.isBetween(weekStart, weekEnd) && end.isBetween(weekStart, weekEnd)) {
-        var duration = moment.duration(end.diff(start)).asHours(); 
-        
+        var duration = moment.duration(end.diff(start)).asHours();
+
         if (duration >= 8) {
           duration -= 0.75; // Subtract 45 minutes (0.75 hours)
         } else if (duration >= 6) {
           duration -= 0.5; // Subtract 30 minutes (0.5 hours)
         }
-        
+
         return total + duration;
       }
 
@@ -152,17 +152,8 @@ const ShiftPlan = () => {
     return totalShiftHours.toFixed(2); // Return the value with 2 decimal places
   };
 
-  // Function to calculate total shift days per month
+  // Function to calculate shifts per month, where one shift is max per day
   const calculateDaysPerMonth = (shifts) => {
-    // const shiftDays = shifts.reduce((total, shift) => {
-    //   const start = moment(shift.start);
-    //   const end = moment(shift.end);
-    //   const duration = moment.duration(end.diff(start));
-    //   const shiftDays = duration.asDays() + 1; // Adding 1 to include both start and end days
-    //   return total + shiftDays;
-    // }, 0);
-
-    // return shiftDays;
     return shifts.length;
   };
 
@@ -210,71 +201,73 @@ const ShiftPlan = () => {
         <button className="shift-schedule-container-button" onClick={handlePrevWeekClick}>Vorherige Woche</button>
         <button className="shift-schedule-container-button" onClick={handleNextWeekClick}>Nächste Woche</button>
       </div>
-      <table className="shift-schedule-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            {Array.from({ length: 7 }).map((_, i) => (
-              <th key={i}>{startDate.clone().add(i, "day").locale("DE").format("ddd DD.MM.")}</th>
-            ))}
-            <th>Stunden/Woche</th>
-            <th>Tage/Monat</th>
-            <th>Urlaub/Monat</th>
-            <th>Krankheit/Monat</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((employee) => {
-            const employeeShifts = shifts.filter(
-              (s) => s.employeeId === employee.id && startDate.isSameOrBefore(moment(s.start), "day")
-            );
+      <div className="table-container">
+        <table className="shift-schedule-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              {Array.from({ length: 7 }).map((_, i) => (
+                <th key={i}>{startDate.clone().add(i, "day").locale("DE").format("ddd DD.MM.")}</th>
+              ))}
+              <th>Stunden/Woche</th>
+              <th>Tage/Monat</th>
+              <th>Urlaub/Monat</th>
+              <th>Krankheit/Monat</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employees.map((employee) => {
+              const employeeShifts = shifts.filter(
+                (s) => s.employeeId === employee.id && startDate.isSameOrBefore(moment(s.start), "day")
+              );
 
-            const shiftHoursPerWeek = calculateShiftHoursPerWeek(employeeShifts);
-            const totalShiftDaysPerMonth = calculateShiftDaysPerMonth(employeeShifts);
-            const totalShiftHoursPerMonth = calculateHoursPerMonth(employeeShifts);
-            const vacationDaysPerMonth = calculateVacationDaysPerMonth(employeeShifts);
-            const sickLeaveDaysPerMonth = calculateSickLeaveDaysPerMonth(employeeShifts);
+              const shiftHoursPerWeek = calculateShiftHoursPerWeek(employeeShifts);
+              const totalShiftDaysPerMonth = calculateShiftDaysPerMonth(employeeShifts);
+              const totalShiftHoursPerMonth = calculateHoursPerMonth(employeeShifts);
+              const vacationDaysPerMonth = calculateVacationDaysPerMonth(employeeShifts);
+              const sickLeaveDaysPerMonth = calculateSickLeaveDaysPerMonth(employeeShifts);
 
-            return (
-              <tr key={employee.id}>
-                <td>{employee.username}</td>
-                {Array.from({ length: 7 }).map((_, i) => {
-                  const date = startDate.clone().add(i, "day").format("YYYY-MM-DD");
-                  const shift = employeeShifts.find((s) => moment(s.start).format("YYYY-MM-DD") === date);
+              return (
+                <tr key={employee.id}>
+                  <td>{employee.username}</td>
+                  {Array.from({ length: 7 }).map((_, i) => {
+                    const date = startDate.clone().add(i, "day").format("YYYY-MM-DD");
+                    const shift = employeeShifts.find((s) => moment(s.start).format("YYYY-MM-DD") === date);
 
-                  // Determine the CSS class based on shiftType
-                  let cellClassName = "";
-                  if (shift) {
-                    switch (shift.type) {
-                      case "Urlaub":
-                        cellClassName = "vacation-shift";
-                        break;
-                      case "Krankheit":
-                        cellClassName = "sick-leave-shift";
-                        break;
-                      default:
-                        break;
+                    // Determine the CSS class based on shiftType
+                    let cellClassName = "";
+                    if (shift) {
+                      switch (shift.type) {
+                        case "Urlaub":
+                          cellClassName = "vacation-shift";
+                          break;
+                        case "Krankheit":
+                          cellClassName = "sick-leave-shift";
+                          break;
+                        default:
+                          break;
+                      }
                     }
-                  }
 
-                  return (
-                    <td
-                      key={i}
-                      className={`shift-schedule-table-cell ${cellClassName}`}
-                      onClick={() => handleCellClick(employee.id, employee.username, date)}>
-                      {shift ? `${formatTimeRange(shift)}` : ""}
-                    </td>
-                  );
-                })}
-                <td>{shiftHoursPerWeek}</td>
-                <td>{totalShiftDaysPerMonth} ({totalShiftHoursPerMonth})</td>
-                <td>{vacationDaysPerMonth}</td>
-                <td>{sickLeaveDaysPerMonth}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                    return (
+                      <td
+                        key={i}
+                        className={`shift-schedule-table-cell ${cellClassName}`}
+                        onClick={() => handleCellClick(employee.id, employee.username, date)}>
+                        {shift ? `${formatTimeRange(shift)}` : ""}
+                      </td>
+                    );
+                  })}
+                  <td>{shiftHoursPerWeek}</td>
+                  <td>{totalShiftDaysPerMonth} ({totalShiftHoursPerMonth})</td>
+                  <td>{vacationDaysPerMonth}</td>
+                  <td>{sickLeaveDaysPerMonth}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       <div className="shift-indicators">
         <div className="indicator vacation-shift"></div>
         <span>Urlaub</span>
