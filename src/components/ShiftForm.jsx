@@ -39,7 +39,6 @@ const ShiftForm = ({ shift, onSubmit, onCancel, onDelete }) => {
     setStart(shift.start ? moment(shift.start) : moment(shift.date, 'YYYY-MM-DD').startOf('day').set('hour', 9));
     setEnd(shift.end ? moment(shift.end) : moment(shift.date, 'YYYY-MM-DD').startOf('day').set('hour', 18));
     setType(shift.type)
-    console.log(shift)
   }, [shift]);
 
   const handleSubmit = (e) => {

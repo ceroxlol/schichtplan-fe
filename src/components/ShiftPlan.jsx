@@ -29,13 +29,18 @@ const ShiftPlan = () => {
 
   useEffect(() => {
     const fetchUsersData = async () => {
-      const response = await (id ? userService.getUser(id) : userService.getAllUsers());
-      const data = Array.isArray(response.data) ? response.data : [response.data];
-      setEmployees(data)
+      try {
+        const response = await (id ? userService.getUser(id) : userService.getAllUsers());
+        const data = Array.isArray(response.data) ? response.data : [response.data];
+        setEmployees(data)
+      } catch (error) {
+        toast.error("Etwas ist schief gelaufen beim abholen der Nutzerdaten");
+        navigate("/login")
+      }
     }
 
     fetchUsersData();
-  }, [id]);
+  }, [id, navigate]);
 
   useEffect(() => {
     const fetchScheduleData = async () => {
@@ -95,16 +100,15 @@ const ShiftPlan = () => {
       if (index === -1) {
         var newShift = { id: null, employeeId, start: formattedStart, end: formattedEnd, type };
         const response = await shiftService.upsertShift(newShift);
-        newShift.id = response.data.id;
+        newShift.id = await response.data;
+        console.log(await response.data);
         setShifts(prevShifts => [...prevShifts, newShift]);
-        toast.done("Schicht hinzugefügt.")
       } else {
         const shiftToUpdate = shifts[index];
         const updatedShift = { ...shiftToUpdate, start: formattedStart, end: formattedEnd, type };
         await shiftService.upsertShift(updatedShift);
         shifts.splice(index, 1, updatedShift);
         setShifts([...shifts]);
-        toast.done("Schicht aktualisiert.")
       }
     } catch (error) {
       console.error(error);
@@ -130,7 +134,7 @@ const ShiftPlan = () => {
     const weekStart = moment(startDate).startOf("week");
     const weekEnd = moment(startDate).endOf("week");
 
-    const totalShiftHours = shifts.reduce((total, shift) => {
+    const totalShiftHours = shifts.filter((shift) => shift.type === "Normal").reduce((total, shift) => {
       const start = moment(shift.start);
       const end = moment(shift.end);
 
@@ -152,12 +156,11 @@ const ShiftPlan = () => {
     return totalShiftHours.toFixed(2); // Return the value with 2 decimal places
   };
 
-  // Function to calculate shifts per month, where one shift is max per day
   const calculateDaysPerMonth = (shifts) => {
     return shifts.length;
   };
 
-  // Function to calculate total shift hours per month
+  // TODO filter for only shifts in this month
   const calculateHoursPerMonth = (shifts) => {
     const shiftDays = shifts.reduce((total, shift) => {
       const start = moment(shift.start);
@@ -169,25 +172,19 @@ const ShiftPlan = () => {
     return shiftDays;
   };
 
-  // Function to calculate vacation days per month
   const calculateShiftDaysPerMonth = (shifts) => {
-    const vacationShifts = shifts.filter((shift) => shift.type === "Normal");
-    const vacationDays = calculateDaysPerMonth(vacationShifts);
-    return vacationDays;
+    const workingShifts = shifts.filter((shift) => shift.type === "Normal");
+    return calculateDaysPerMonth(workingShifts);
   };
 
-  // Function to calculate vacation days per month
   const calculateVacationDaysPerMonth = (shifts) => {
     const vacationShifts = shifts.filter((shift) => shift.type === "Urlaub");
-    const vacationDays = calculateDaysPerMonth(vacationShifts);
-    return vacationDays;
+    return calculateDaysPerMonth(vacationShifts);
   };
 
-  // Function to calculate sick leave days per month
   const calculateSickLeaveDaysPerMonth = (shifts) => {
     const sickLeaveShifts = shifts.filter((shift) => shift.type === "Krankheit");
-    const sickLeaveDays = calculateDaysPerMonth(sickLeaveShifts);
-    return sickLeaveDays;
+    return calculateDaysPerMonth(sickLeaveShifts);
   };
 
 
@@ -209,10 +206,10 @@ const ShiftPlan = () => {
               {Array.from({ length: 7 }).map((_, i) => (
                 <th key={i}>{startDate.clone().add(i, "day").locale("DE").format("ddd DD.MM.")}</th>
               ))}
-              <th>Stunden/Woche</th>
-              <th>Tage/Monat</th>
-              <th>Urlaub/Monat</th>
-              <th>Krankheit/Monat</th>
+              <th>Stunden / Woche</th>
+              <th>Gesamte Tage / Monat</th>
+              <th>Urlaub / Monat</th>
+              <th>Krankheit / Monat</th>
             </tr>
           </thead>
           <tbody>

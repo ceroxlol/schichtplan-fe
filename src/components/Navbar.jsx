@@ -1,25 +1,30 @@
 import { Navbar, Nav } from "react-bootstrap";
-import { useNavigate, NavLink, Link } from 'react-router-dom';
+import { useNavigate, useLocation, NavLink, Link } from 'react-router-dom';
 import auth from "../services/auth";
+import { useEffect } from "react";
 
 export default function SchichtplanNavbar() {
 
   const navigate = useNavigate();
+  const location = useLocation();
   const user = auth.getCurrentUser();
+
+  useEffect(() => {
+    if ((!user || !user.token || !user.id) && !location.pathname === "/") {
+      navigate("/login")
+    }
+  }, [user, navigate, location.pathname]);
 
   function logout() {
     auth.logout()
     navigate("/login")
   }
 
-  if (user && user.token) {
+  if (user && user.token && user.id) {
     return (
       <Navbar bg="light" expand="lg">
         <Navbar.Brand as={NavLink} to="/">Schichtplan</Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Item>
-            <Nav.Link as={Link} to="/home">Home</Nav.Link>
-          </Nav.Item>
           <Nav.Item>
             <Nav.Link as={Link} to={`/shiftplan/${user.id}`}>Mein Schichtplan</Nav.Link>
           </Nav.Item>
@@ -45,16 +50,13 @@ export default function SchichtplanNavbar() {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
-          <Nav.Item>
-            <Nav.Link href="/home">Home</Nav.Link>
-          </Nav.Item>
           {user && user.token &&
             <Nav.Item>
-              <Nav.Link href="/shiftplan">Mein Schichtplan</Nav.Link>
+              <Nav.Link as={Link} to={`/shiftplan/${user.id}`}>Mein Schichtplan</Nav.Link>
             </Nav.Item>
             &&
             <Nav.Item>
-              <Nav.Link href="/shiftplan/all">Schichtplan</Nav.Link>
+              <Nav.Link as={Link} to={`/shiftplan/all`}>Gesamter Schichtplan</Nav.Link>
             </Nav.Item>
           }
         </Nav>

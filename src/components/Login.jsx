@@ -19,16 +19,17 @@ export default function Login() {
         // The request was made, but the server responded with an error status code
         console.error("Server responded with status code:", error.response.status);
         console.error("Response data:", error.response.data);
+        toast.error(`Etwas lief schief: ${error.message}`);
       } else if (error.request) {
         // The request was made, but no response was received
         console.error("No response received from the server");
         console.error("Request details:", error.request);
+        toast.error(`Etwas lief schief: ${error.message}`);
       } else {
+        toast.error("Falsche E-Mail-Adresse oder Passwort.");
         // Something else happened while setting up the request
         console.error("Error:", error.message);
       }
-    
-      toast.error(`Etwas lief schief: ${error.message}`);
     }
   };
 

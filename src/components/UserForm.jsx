@@ -57,8 +57,8 @@ const UserForm = () => {
         }
         else {
           toast.success("Neuen Nutzer angelegt.")
-          navigate("/users")
         }
+        navigate("/users")
       }
     } catch (error) {
       console.error(error);
