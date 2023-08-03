@@ -4,7 +4,6 @@ import axios from "../utils/axios";
 const authService = {
   login: async (email, password) => {
     try {
-      console.log(axios.baseUrl)
       const response = await axios.post('/api/users/login', {
         email: email,
         password: password
